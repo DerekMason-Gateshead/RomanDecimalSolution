@@ -109,7 +109,12 @@
         RomanInputTestData{ "XXIX", true, 29 , eStatusCode::eSUCCESS },
         RomanInputTestData{ "XXX", true, 30 , eStatusCode::eSUCCESS },
         RomanInputTestData{ "XXXI", true, 31 , eStatusCode::eSUCCESS },
-        RomanInputTestData{ "XXXVII", true, 37 , eStatusCode::eSUCCESS }
+        RomanInputTestData{ "XXXVII", true, 37 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XXXIX", true, 39 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XXXX", false, -1 , eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES },
+        RomanInputTestData{ "XXXIXIX", false, -1 , eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES }
+
+        
     ));
     
     TEST_P(RomanDataTests, dataValidTest)

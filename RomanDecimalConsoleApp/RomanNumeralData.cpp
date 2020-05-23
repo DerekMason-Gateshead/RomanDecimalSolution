@@ -91,13 +91,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			break;
 
 		case ROMAN_X_10:
-			
-			
 			m_nXvalues++;
 			m_nDecimalValue += ROMAN_X_INCREMENT;
-
 			switch (lastValue)
 			{
+			
 			case CURRENT_ROMAN_VALUE::V:
 				dataValid = false;
 				m_eStatusCode = eStatusCode::eFAIL_HALF_VALUES_NOT_ALLOWED_PRE;
@@ -105,12 +103,17 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 
 			case CURRENT_ROMAN_VALUE::I:
 				dataValid = lastValueI();
-				
+				m_nXvalues = MAX_BASE10_VALUES; // we should be maxed out on these values now
 				break;
 			default:
 				break;
 			}
 
+			if (m_nXvalues > MAX_BASE10_VALUES)
+			{
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES;
+			}
 			lastValue = CURRENT_ROMAN_VALUE::X;
 
 			break;
