@@ -53,7 +53,7 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 	{
 		if (!dataValid) break;
 
-		switch (data[i])
+		switch (toupper(data[i]))
 		{
 		case ROMAN_I_1:
 			m_nDecimalValue++;
@@ -98,6 +98,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 
 			switch (lastValue)
 			{
+			case CURRENT_ROMAN_VALUE::V:
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_HALF_VALUES_NOT_ALLOWED_PRE;
+				break;
+
 			case CURRENT_ROMAN_VALUE::I:
 				dataValid = lastValueI();
 				
