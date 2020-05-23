@@ -6,6 +6,7 @@
 #define ROMAN_V_INCREMENT 5
 
 #define MAX_BASE10_VALUES 3
+#define MAX_PRE_BASE_TEN  1
 
 RomanNumeralData::RomanNumeralData()
 {
@@ -43,12 +44,34 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			if (m_nIvalues > MAX_BASE10_VALUES)
 			{
 				dataValid = false;
-				m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_I_VALUES;
+				m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES;
 			}
+			lastValue = CURRENT_ROMAN_VALUE::I;
 			break;
 		case ROMAN_V_5:
 			m_nDecimalValue += ROMAN_V_INCREMENT;
+
+			switch (lastValue)
+			{
+			case CURRENT_ROMAN_VALUE::I:
+				if (m_nIvalues > MAX_PRE_BASE_TEN)
+				{
+					dataValid = false;
+					m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
+				}
+				else // must be one
+				{
+					m_nDecimalValue -= 2;
+				}
+				break;
+			default:
+				break;
+			}
+
+			lastValue = CURRENT_ROMAN_VALUE::V;
 			break;
+
+		
 
 		default:
 			// Not defined so invalid data

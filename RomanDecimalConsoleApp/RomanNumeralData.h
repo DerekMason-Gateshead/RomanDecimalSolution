@@ -5,10 +5,20 @@ enum  eStatusCode
 {
 	eSUCCESS = 0,
 	eFAIL_INVALID_DATA_VALUE = 1,
-	eFAIL_TOO_MANY_I_VALUES = 2,
+	eFAIL_TOO_MANY_BASE10_VALUES = 2,
+	eFAIL_TOO_MANY_PRE_BASE_10_VALUES = 3,
 	eUNINTIALISED = -1
 };
 
+enum class CURRENT_ROMAN_VALUE
+{
+	Undef,
+	I,
+	V,
+	X,
+	L,
+	C
+};
 
 class RomanNumeralData
 {
@@ -28,5 +38,6 @@ private:
 
 	eStatusCode m_eStatusCode = eStatusCode::eUNINTIALISED;
 	int m_nIvalues = 0;
+	CURRENT_ROMAN_VALUE lastValue =	CURRENT_ROMAN_VALUE::Undef;
 };
 

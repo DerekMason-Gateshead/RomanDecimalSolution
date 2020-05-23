@@ -38,15 +38,15 @@
         }
     };
 
-    
     INSTANTIATE_TEST_CASE_P(roman_data_tests, RomanDataTests, testing::Values(
             RomanInputTestData{ "VI", true, 6 , eStatusCode::eSUCCESS},
             RomanInputTestData{ "EVI", false, -1, eStatusCode::eFAIL_INVALID_DATA_VALUE },
             RomanInputTestData{ "I", true, 1 , eStatusCode::eSUCCESS },
             RomanInputTestData{ "II", true, 2 , eStatusCode::eSUCCESS },
             RomanInputTestData{ "III", true, 3 , eStatusCode::eSUCCESS },
-            RomanInputTestData{ "IIII", false, -1 , eStatusCode::eFAIL_TOO_MANY_I_VALUES }
-
+            RomanInputTestData{ "IIII", false, -1 , eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES },
+            RomanInputTestData{ "IV", true, 4, eStatusCode::eSUCCESS}
+            
 
         ));
     
