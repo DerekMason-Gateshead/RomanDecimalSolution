@@ -251,7 +251,17 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			lastValue = CURRENT_ROMAN_VALUE::D;
 			break;
 		case ROMAN_M_1000:
-			// TODO
+			m_nMvalues++;
+			m_nDecimalValue += ROMAN_M_INCREMENT;
+			
+			switch (lastValue)
+			{
+			case CURRENT_ROMAN_VALUE::C:
+				dataValid = lastValueC();
+				break;
+			default:
+				break;
+			}
 			break;
 
 		default:

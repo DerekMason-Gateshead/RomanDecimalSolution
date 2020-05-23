@@ -245,7 +245,9 @@
                 RomanInputTestData{ "DCCCXCIX", true, 899 , eStatusCode::eSUCCESS },
                 RomanInputTestData{ "IVI", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
                 RomanInputTestData{ "XLX", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
-                RomanInputTestData{ "CDC", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE }
+                RomanInputTestData{ "CDC", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
+                RomanInputTestData{ "DVI", true, 506 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "CM", true, 900 , eStatusCode::eSUCCESS }
 
     ));
     
