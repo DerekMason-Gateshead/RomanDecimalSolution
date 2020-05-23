@@ -112,9 +112,22 @@
         RomanInputTestData{ "XXXVII", true, 37 , eStatusCode::eSUCCESS },
         RomanInputTestData{ "XXXIX", true, 39 , eStatusCode::eSUCCESS },
         RomanInputTestData{ "XXXX", false, -1 , eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES },
-        RomanInputTestData{ "XXXIXIX", false, -1 , eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES }
+        RomanInputTestData{ "XXXIXIX", false, -1 , eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES },
 
-        
+        RomanInputTestData{ "XL", true, 40 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLI", true, 41 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLII", true, 42 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLIII", true, 43 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLIV", true, 44 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLV", true, 45 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLVI", true, 46 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLVII", true, 47 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLVIII", true, 48 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "XLIX", true, 49 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "L", true, 50 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "LI", true, 51 , eStatusCode::eSUCCESS },
+        RomanInputTestData{ "IL", false, -1 , eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER }
+
     ));
     
     TEST_P(RomanDataTests, dataValidTest)

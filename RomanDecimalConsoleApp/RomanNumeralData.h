@@ -9,6 +9,7 @@ enum  eStatusCode
 	eFAIL_TOO_MANY_PRE_BASE_10_VALUES = 3,
 	eFAIL_TOO_MANT_HALF_TEN_VALUES = 4,
 	eFAIL_HALF_VALUES_NOT_ALLOWED_PRE = 5,
+	eFAIL_INVALID_PRE_VALUE_FOR_NUMBER = 6,
 	eUNINTIALISED = -1
 };
 
@@ -36,6 +37,7 @@ public:
 	int romanDecimalValue();
 private:
 	bool lastValueI();
+	bool lastValueX();
 
 private:
 	bool m_bDataValid = false;

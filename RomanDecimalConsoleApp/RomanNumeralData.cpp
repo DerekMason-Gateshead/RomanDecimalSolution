@@ -18,6 +18,11 @@
 #define MAX_BASE10_VALUES 3
 #define MAX_PRE_BASE_TEN  1
 #define MAX_PRE_HALF_BASE_TEN 1
+
+#define DECREMENT_IF_PREI   2
+#define DECREMENT_IF_PREX	20
+#define DECREMENT_IF_PREC	200
+
 RomanNumeralData::RomanNumeralData()
 {
 }
@@ -119,6 +124,32 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			break;
 
 		case ROMAN_L_50:
+			m_nLvalues++;
+			m_nDecimalValue += ROMAN_L_INCREMENT;
+
+			if (m_nLvalues > MAX_PRE_HALF_BASE_TEN)
+			{
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
+			}
+
+			switch (lastValue)
+			{
+			case CURRENT_ROMAN_VALUE::I:
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
+
+				break;
+			case CURRENT_ROMAN_VALUE::X:
+				dataValid = lastValueX();
+			
+			default:
+				break;
+			}
+
+			lastValue = CURRENT_ROMAN_VALUE::L;
+
+			break;
 		case ROMAN_C_100:
 		case ROMAN_D_500:
 		case ROMAN_M_1000:
@@ -161,7 +192,22 @@ bool RomanNumeralData::lastValueI()
 	}
 	else // must be one
 	{
-		m_nDecimalValue -= 2;
+		m_nDecimalValue -= DECREMENT_IF_PREI;
 		return true;
 	}
 }
+
+bool RomanNumeralData::lastValueX()
+{
+	if (m_nXvalues > MAX_PRE_BASE_TEN)
+	{
+		m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
+		return false;
+	}
+	else // must be one
+	{
+		m_nDecimalValue -= DECREMENT_IF_PREX;
+		return true;
+	}
+}
+
