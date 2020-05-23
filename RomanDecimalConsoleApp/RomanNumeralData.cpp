@@ -3,6 +3,9 @@
 #define ROMAN_I_1 'I'
 #define ROMAN_V_5 'V'
 
+#define ROMAN_V_INCREMENT 5
+
+#define MAX_BASE10_VALUES 3
 
 RomanNumeralData::RomanNumeralData()
 {
@@ -27,6 +30,7 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 	bool dataValid = true;
 
 	m_nDecimalValue = 0;
+	m_nIvalues = 0;
 
 	for (size_t i = 0; i < data.length(); i++)
 	{
@@ -34,9 +38,16 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 		{
 		case ROMAN_I_1:
 			m_nDecimalValue++;
+			m_nIvalues++;
+
+			if (m_nIvalues > MAX_BASE10_VALUES)
+			{
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_I_VALUES;
+			}
 			break;
 		case ROMAN_V_5:
-			m_nDecimalValue += 5;
+			m_nDecimalValue += ROMAN_V_INCREMENT;
 			break;
 
 		default:
