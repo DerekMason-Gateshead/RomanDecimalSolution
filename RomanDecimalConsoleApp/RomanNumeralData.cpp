@@ -1,5 +1,9 @@
 #include "RomanNumeralData.h"
 
+#define ROMAN_I_1 'I'
+#define ROMAN_V_5 'V'
+
+
 RomanNumeralData::RomanNumeralData()
 {
 }
@@ -17,16 +21,17 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 {
 	bool dataValid = true;
 
-	
+	m_nDecimalValue = 0;
 
 	for (size_t i = 0; i < data.length(); i++)
 	{
 		switch (data[i])
 		{
-		case 'I':
-
+		case ROMAN_I_1:
+			m_nDecimalValue++;
 			break;
-		case 'V':
+		case ROMAN_V_5:
+			m_nDecimalValue += 5;
 			break;
 
 		default:
@@ -38,4 +43,9 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 
 	m_bDataValid = dataValid;
 
+}
+
+int RomanNumeralData::romanDecimalValue()
+{
+	return m_nDecimalValue;
 }

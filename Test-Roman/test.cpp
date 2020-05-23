@@ -1,52 +1,60 @@
 #include "pch.h"
+
 #include "..\RomanDecimalConsoleApp\RomanNumeralData.h"
 
-struct ValidTestData
-{
-    std::string romanNumber;
-    bool expectedSuccess;
-    int expectedValue;
-
-
-    friend std::ostream& operator<<(std::ostream& os, const ValidTestData& obj)
+    struct RomanInputTestData
     {
-        return os
-            << "Roman Number " << obj.romanNumber
-            << "expected Success" << obj.expectedSuccess
-            << " value" << obj.expectedValue;
-    }
-};
+        std::string romanNumber;
+        bool expectedSuccess;
+        int expectedValue;
 
-struct RomanInputDataTest : testing::Test
-{
-    RomanNumeralData* romanNumeralData;
-    RomanInputDataTest()
+
+        friend std::ostream& operator<<(std::ostream& os, const RomanInputTestData& obj)
+        {
+            return os
+                << "Roman Number " << obj.romanNumber
+                << " expected Success" << obj.expectedSuccess
+                << " value" << obj.expectedValue;
+        }
+    };
+
+    struct RomanInputDataTest : testing::Test
     {
-        romanNumeralData = new RomanNumeralData();
-    }
+        RomanNumeralData* romanNumeralData;
+        RomanInputDataTest()
+        {
+            romanNumeralData = new RomanNumeralData();
+        }
 
-    virtual ~RomanInputDataTest() { delete romanNumeralData; }
-};
+        virtual ~RomanInputDataTest() { delete romanNumeralData; }
+    };
 
-struct DataValidTests : RomanInputDataTest, testing::WithParamInterface<ValidTestData>
-{
-    DataValidTests()
+    struct RomanDataTests : RomanInputDataTest, testing::WithParamInterface<RomanInputTestData>
     {
-        romanNumeralData->setRomanNumeralData(GetParam().romanNumber);
+        RomanDataTests()
+        {
+            romanNumeralData->setRomanNumeralData(GetParam().romanNumber);
+        }
+    };
+
+    
+    INSTANTIATE_TEST_CASE_P(roman_data_tests, RomanDataTests, testing::Values(
+            RomanInputTestData{ "VI", true, 6 }
+        ));
+
+    TEST_P(RomanDataTests, dataValidTest)
+    {
+            auto as = GetParam();
+            
+            EXPECT_EQ(romanNumeralData->IsDataValid(),as.expectedSuccess);
     }
-};
 
-INSTANTIATE_TEST_CASE_P(successTests, DataValidTests, testing::Values(
-    ValidTestData{ "VI", true, 6 }
-));
+    TEST_P(RomanDataTests, dataValueTest)
+    {
+        auto as = GetParam();
 
-TEST_P(DataValidTests, dataValidTest)
-{
-    auto as = GetParam();
+        EXPECT_EQ(romanNumeralData->romanDecimalValue(), as.expectedValue);
+    }
+    
 
-  
-    EXPECT_TRUE( romanNumeralData->IsDataValid());
-
-}
-
-
+    
