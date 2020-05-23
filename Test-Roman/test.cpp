@@ -7,14 +7,15 @@
         std::string romanNumber;
         bool expectedSuccess;
         int expectedValue;
-
+        eStatusCode statusCode;
 
         friend std::ostream& operator<<(std::ostream& os, const RomanInputTestData& obj)
         {
             return os
                 << "Roman Number " << obj.romanNumber
-                << " expected Success" << obj.expectedSuccess
-                << " value" << obj.expectedValue;
+                << " value" << obj.expectedValue
+                << " success/fail expected" << obj.expectedSuccess
+                << " status Code"  << obj.statusCode;
         }
     };
 
@@ -39,9 +40,10 @@
 
     
     INSTANTIATE_TEST_CASE_P(roman_data_tests, RomanDataTests, testing::Values(
-            RomanInputTestData{ "VI", true, 6 }
+            RomanInputTestData{ "VI", true, 6 , eStatusCode::eSUCCESS},
+            RomanInputTestData{ "EVI", false, -1, eStatusCode::eFAIL_INVALID_DATA_VALUE }
         ));
-
+    
     TEST_P(RomanDataTests, dataValidTest)
     {
             auto as = GetParam();
@@ -55,6 +57,15 @@
 
         EXPECT_EQ(romanNumeralData->romanDecimalValue(), as.expectedValue);
     }
+
+    TEST_P(RomanDataTests, statusCodeTest)
+    {
+        auto as = GetParam();
+
+        EXPECT_EQ(romanNumeralData->getStatusCode(), as.statusCode);
+    }
+
+
     
 
     

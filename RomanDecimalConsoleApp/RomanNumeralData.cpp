@@ -17,6 +17,11 @@ bool RomanNumeralData::IsDataValid()
 	return m_bDataValid;
 }
 
+eStatusCode RomanNumeralData::getStatusCode()
+{
+	return m_eStatusCode;
+}
+
 void RomanNumeralData::setRomanNumeralData(const std::string &data)
 {
 	bool dataValid = true;
@@ -36,10 +41,21 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 
 		default:
 			// Not defined so invalid data
+			m_eStatusCode = eStatusCode::eFAIL_INVALID_DATA_VALUE;
 			dataValid = false;
 			break;
 		}
 	}
+
+	if (dataValid)
+	{
+		m_eStatusCode = eStatusCode::eSUCCESS;
+	}
+	else
+	{
+		m_nDecimalValue = -1;
+	}
+	
 
 	m_bDataValid = dataValid;
 
