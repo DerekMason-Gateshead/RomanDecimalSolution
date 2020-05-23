@@ -45,7 +45,8 @@
             RomanInputTestData{ "II", true, 2 , eStatusCode::eSUCCESS },
             RomanInputTestData{ "III", true, 3 , eStatusCode::eSUCCESS },
             RomanInputTestData{ "IIII", false, -1 , eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES },
-            RomanInputTestData{ "IV", true, 4, eStatusCode::eSUCCESS}
+            RomanInputTestData{ "IV", true, 4, eStatusCode::eSUCCESS },
+            RomanInputTestData{  "VV", false, -1,  eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES }
             
 
         ));

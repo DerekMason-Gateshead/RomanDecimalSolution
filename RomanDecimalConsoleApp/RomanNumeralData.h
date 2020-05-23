@@ -7,6 +7,7 @@ enum  eStatusCode
 	eFAIL_INVALID_DATA_VALUE = 1,
 	eFAIL_TOO_MANY_BASE10_VALUES = 2,
 	eFAIL_TOO_MANY_PRE_BASE_10_VALUES = 3,
+	eFAIL_TOO_MANT_HALF_TEN_VALUES = 4,
 	eUNINTIALISED = -1
 };
 
@@ -38,6 +39,7 @@ private:
 
 	eStatusCode m_eStatusCode = eStatusCode::eUNINTIALISED;
 	int m_nIvalues = 0;
+	int m_nVvalues = 0;
 	CURRENT_ROMAN_VALUE lastValue =	CURRENT_ROMAN_VALUE::Undef;
 };
 
