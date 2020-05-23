@@ -140,9 +140,13 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 				m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
 
 				break;
+			case CURRENT_ROMAN_VALUE::V:
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_HALF_VALUES_NOT_ALLOWED_PRE;
+				break;
 			case CURRENT_ROMAN_VALUE::X:
 				dataValid = lastValueX();
-			
+				break;
 			default:
 				break;
 			}
@@ -151,6 +155,42 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 
 			break;
 		case ROMAN_C_100:
+			m_nCvalues++;
+			m_nDecimalValue += ROMAN_C_INCREMENT;
+
+
+			switch (lastValue)
+			{
+			case CURRENT_ROMAN_VALUE::L:
+			case CURRENT_ROMAN_VALUE::V:
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_HALF_VALUES_NOT_ALLOWED_PRE;
+				break;
+
+			case CURRENT_ROMAN_VALUE::I:
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
+
+				break;
+			case CURRENT_ROMAN_VALUE::X:
+				dataValid = lastValueX();
+				m_nCvalues = MAX_BASE10_VALUES;
+				break;
+			default:
+				break;
+			}
+
+
+			if (m_nCvalues > MAX_BASE10_VALUES)
+			{
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES;
+			}
+
+			lastValue = CURRENT_ROMAN_VALUE::C;
+			break;
+
+
 		case ROMAN_D_500:
 		case ROMAN_M_1000:
 			// TODO
