@@ -34,12 +34,25 @@ public:
 	void setRomanNumeralData(const std::string &data);
 	int romanDecimalValue();
 private:
+	bool lastValueI();
+
+private:
 	bool m_bDataValid = false;
+	
+	
 	int m_nDecimalValue = 0;
 
 	eStatusCode m_eStatusCode = eStatusCode::eUNINTIALISED;
-	int m_nIvalues = 0;
+	int m_nIvalues = 0; 
 	int m_nVvalues = 0;
+	int m_nXvalues = 0;
+	int m_nLvalues = 0;
+	int m_nCvalues = 0;
+	int m_nDvalues = 0;
+	int m_nMvalues = 0;
+
+
+
 	CURRENT_ROMAN_VALUE lastValue =	CURRENT_ROMAN_VALUE::Undef;
 };
 
