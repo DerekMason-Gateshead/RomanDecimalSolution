@@ -11,6 +11,7 @@ enum  eStatusCode
 	eFAIL_HALF_VALUES_NOT_ALLOWED_PRE = 5,
 	eFAIL_INVALID_PRE_VALUE_FOR_NUMBER = 6,
 	eFAIL_PREV_USER_PRE_HIGHER_VALUE = 7,
+	eFAIL_BLANK_DATA = 8,
 	eUNINTIALISED = -1
 };
 
@@ -23,7 +24,9 @@ enum class CURRENT_ROMAN_VALUE
 	L = 50,
 	C = 100,
 	D = 500,
-	M = 1000
+	M = 1000,
+	ROMAN5000 = 5000,
+	ROMAN10000 = 10000
 };
 
 class RomanNumeralData
@@ -42,6 +45,7 @@ private:
 	bool lastValueI();
 	bool lastValueX();
 	bool lastValueC();
+	bool lastValueM();
 	void initValues();
 private:
 	bool m_bDataValid;
@@ -56,6 +60,9 @@ private:
 	int m_nCvalues;
 	int m_nDvalues;
 	int m_nMvalues;
+
+	int m_n_5000value; // V with line above counter for 5000 roman numerals we use ^V or ^v
+	int m_n_10000value; // X with line above for 10000 roman numerals - we use ^X or ^x
 
 	bool m_bIusedPreValue;
 	bool m_bXusedPreValue;
