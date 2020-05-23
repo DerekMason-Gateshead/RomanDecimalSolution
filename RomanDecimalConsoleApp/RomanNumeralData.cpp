@@ -17,7 +17,7 @@
 
 #define MAX_BASE10_VALUES 3
 #define MAX_PRE_BASE_TEN  1
-#define MAX_PRE_HALF_BASE_TEN 1
+#define MAX_HALF_BASE_TEN 1  // For valuse with five we are only allowed a single instance
 
 #define DECREMENT_IF_PREI   2
 #define DECREMENT_IF_PREX	20
@@ -75,10 +75,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			m_nVvalues++;
 			m_nDecimalValue += ROMAN_V_INCREMENT;
 
-			if (m_nVvalues > MAX_PRE_HALF_BASE_TEN)
+			if (m_nVvalues > MAX_HALF_BASE_TEN)
 			{
 				dataValid = false;
 				m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
+				break;
 			}
 
 			switch (lastValue)
@@ -127,10 +128,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			m_nLvalues++;
 			m_nDecimalValue += ROMAN_L_INCREMENT;
 
-			if (m_nLvalues > MAX_PRE_HALF_BASE_TEN)
+			if (m_nLvalues > MAX_HALF_BASE_TEN)
 			{
 				dataValid = false;
 				m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
+				break;
 			}
 
 			switch (lastValue)
@@ -192,6 +194,39 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 
 
 		case ROMAN_D_500:
+
+			m_nDvalues++;
+			m_nDecimalValue += ROMAN_D_INCREMENT;
+
+			if (m_nDvalues > MAX_HALF_BASE_TEN)
+			{
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
+				break;
+			}
+
+			switch (lastValue)
+			{
+			case CURRENT_ROMAN_VALUE::I:
+			case CURRENT_ROMAN_VALUE::X:
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
+
+				break;
+			case CURRENT_ROMAN_VALUE::L:
+			case CURRENT_ROMAN_VALUE::V:
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_HALF_VALUES_NOT_ALLOWED_PRE;
+				break;
+			case CURRENT_ROMAN_VALUE::C:
+				dataValid = lastValueC();
+				break;
+			default:
+				break;
+			}
+
+			lastValue = CURRENT_ROMAN_VALUE::D;
+			break;
 		case ROMAN_M_1000:
 			// TODO
 			break;
@@ -250,4 +285,19 @@ bool RomanNumeralData::lastValueX()
 		return true;
 	}
 }
+
+bool RomanNumeralData::lastValueC()
+{
+	if (m_nCvalues > MAX_PRE_BASE_TEN)
+	{
+		m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
+		return false;
+	}
+	else // must be one
+	{
+		m_nDecimalValue -= DECREMENT_IF_PREC;
+		return true;
+	}
+}
+
 

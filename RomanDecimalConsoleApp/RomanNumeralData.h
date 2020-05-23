@@ -20,7 +20,9 @@ enum class CURRENT_ROMAN_VALUE
 	V,
 	X,
 	L,
-	C
+	C,
+	D,
+	M
 };
 
 class RomanNumeralData
@@ -38,7 +40,7 @@ public:
 private:
 	bool lastValueI();
 	bool lastValueX();
-
+	bool lastValueC();
 private:
 	bool m_bDataValid = false;
 	
