@@ -25,6 +25,7 @@
 
 RomanNumeralData::RomanNumeralData()
 {
+	initValues();
 }
 
 RomanNumeralData::~RomanNumeralData()
@@ -45,14 +46,7 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 {
 	bool dataValid = true;
 
-	m_nDecimalValue = 0;
-	m_nIvalues = 0;
-	m_nVvalues = 0;
-	m_nXvalues = 0;
-	m_nLvalues = 0;
-	m_nCvalues = 0;
-	m_nDvalues = 0;
-	m_nMvalues = 0;
+	initValues();
 
 	for (size_t i = 0; i < data.length(); i++)
 	{
@@ -61,6 +55,13 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 		switch (toupper(data[i]))
 		{
 		case ROMAN_I_1:
+			if (m_bIusedPreValue)
+			{
+				dataValid = false;
+				m_eStatusCode = eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE;
+				break;
+			}
+
 			m_nDecimalValue++;
 			m_nIvalues++;
 
@@ -97,6 +98,17 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			break;
 
 		case ROMAN_X_10:
+			if (m_bXusedPreValue)
+			{
+				if (lastValue > CURRENT_ROMAN_VALUE::X)
+				{
+					dataValid = false;
+					m_eStatusCode = eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE;
+					break;
+				}
+			}
+
+			
 			m_nXvalues++;
 			m_nDecimalValue += ROMAN_X_INCREMENT;
 			switch (lastValue)
@@ -157,6 +169,17 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 
 			break;
 		case ROMAN_C_100:
+			if (m_bCusedPreValue)
+			{
+				if (lastValue > CURRENT_ROMAN_VALUE::C)
+				{
+					dataValid = false;
+					m_eStatusCode = eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE;
+
+					break;
+				}
+			}
+
 			m_nCvalues++;
 			m_nDecimalValue += ROMAN_C_INCREMENT;
 
@@ -260,6 +283,7 @@ int RomanNumeralData::romanDecimalValue()
 
 bool RomanNumeralData::lastValueI()
 {
+	m_bIusedPreValue = true;
 	if (m_nIvalues > MAX_PRE_BASE_TEN)
 	{	
 		m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
@@ -274,6 +298,7 @@ bool RomanNumeralData::lastValueI()
 
 bool RomanNumeralData::lastValueX()
 {
+	m_bXusedPreValue = true;
 	if (m_nXvalues > MAX_PRE_BASE_TEN)
 	{
 		m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
@@ -288,6 +313,7 @@ bool RomanNumeralData::lastValueX()
 
 bool RomanNumeralData::lastValueC()
 {
+	m_bCusedPreValue = true;
 	if (m_nCvalues > MAX_PRE_BASE_TEN)
 	{
 		m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
@@ -298,6 +324,28 @@ bool RomanNumeralData::lastValueC()
 		m_nDecimalValue -= DECREMENT_IF_PREC;
 		return true;
 	}
+}
+
+void RomanNumeralData::initValues()
+{
+	m_bDataValid = false;
+
+	m_nDecimalValue = 0;
+
+	m_eStatusCode = eStatusCode::eUNINTIALISED;
+	m_nIvalues = 0;
+	m_nVvalues = 0;
+	m_nXvalues = 0;
+	m_nLvalues = 0;
+	m_nCvalues = 0;
+	m_nDvalues = 0;
+	m_nMvalues = 0;
+
+	m_bIusedPreValue = false;
+	m_bXusedPreValue = false;
+	m_bCusedPreValue = false;
+
+	lastValue = CURRENT_ROMAN_VALUE::Undef;
 }
 
 

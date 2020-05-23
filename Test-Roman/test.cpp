@@ -112,7 +112,7 @@
         RomanInputTestData{ "XXXVII", true, 37 , eStatusCode::eSUCCESS },
         RomanInputTestData{ "XXXIX", true, 39 , eStatusCode::eSUCCESS },
         RomanInputTestData{ "XXXX", false, -1 , eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES },
-        RomanInputTestData{ "XXXIXIX", false, -1 , eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES },
+        RomanInputTestData{ "XXXIXIX", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
 
         RomanInputTestData{ "XL", true, 40 , eStatusCode::eSUCCESS },
         RomanInputTestData{ "XLI", true, 41 , eStatusCode::eSUCCESS },
@@ -167,7 +167,7 @@
             RomanInputTestData{ "CXXVII", true, 127 , eStatusCode::eSUCCESS },
             RomanInputTestData{ "CXIX", true, 119 , eStatusCode::eSUCCESS },
             RomanInputTestData{ "XXXX", false, -1 , eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES },
-            RomanInputTestData{ "CXIXIX", false, -1 , eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES },
+            RomanInputTestData{ "CXIXIX", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
 
             RomanInputTestData{ "CXL", true, 140 , eStatusCode::eSUCCESS },
             RomanInputTestData{ "CXLI", true, 141 , eStatusCode::eSUCCESS },
@@ -225,7 +225,27 @@
                 RomanInputTestData{ "CCD", false, -1 , eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES },
                 RomanInputTestData{ "CXCD", false, -1 , eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES },
                 RomanInputTestData{ "LL", false, -1,  eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES },
-                RomanInputTestData{ "DD", false, -1,  eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES }
+                RomanInputTestData{ "DD", false, -1,  eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES },
+                RomanInputTestData{ "DVI", true, 506 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCIX", true, 609 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCXCIX", true, 699, eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCXVIII", true, 718 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCXXXIII", true, 733 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCXXXIV", true, 734, eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCXXXIVI", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
+               RomanInputTestData{ "DCCXXXIX", true, 739 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCXL", true, 740 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCXC", true, 790 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCCXLIX", true, 849 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCCLXXX", true, 880, eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCCLXXXIV", true, 884 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCCLXXXIX", true, 889 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCCXC", true, 890 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCCXCV", true, 895 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "DCCCXCIX", true, 899 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "IVI", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
+                RomanInputTestData{ "XLX", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE },
+                RomanInputTestData{ "CDC", false, -1 , eStatusCode::eFAIL_PREV_USER_PRE_HIGHER_VALUE }
 
     ));
     
