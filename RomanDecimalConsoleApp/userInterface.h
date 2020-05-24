@@ -7,12 +7,14 @@ public:
 	void run();
 	void InitialMenu();
 	void InputRomanMenu();
+	void InputDecimalData();
 
 private:
 	enum class MenuState
 	{
 		Init,
-		InputRoman
+		InputRoman,
+		InputDecimal
 	};
 
 	bool runMenu = true;

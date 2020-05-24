@@ -253,7 +253,7 @@ int RomanNumeralData::romanDecimalValue()
 bool RomanNumeralData::getRomanNumeral(const std::string &sDecValue, std::string& sRomanNumeral)
 {
 	int value = 0;
-	int multiplier = 10 * (sDecValue.length() - 1);
+	int multiplier = (int) pow(10, (sDecValue.length() - 1));
 	for (size_t i = 0; i < sDecValue.length(); i++)
 	{
 		if (!(isdigit(sDecValue[i])))
@@ -261,7 +261,7 @@ bool RomanNumeralData::getRomanNumeral(const std::string &sDecValue, std::string
 			return false;
 		}
 
-		value = multiplier * (sDecValue[i] - '0');
+		value += multiplier * (sDecValue[i] - '0');
 		multiplier /= 10;
 
 	}
@@ -270,11 +270,106 @@ bool RomanNumeralData::getRomanNumeral(const std::string &sDecValue, std::string
 	return getRomanNumeral(value, sRomanNumeral);
 }
 
+
+
 bool RomanNumeralData::getRomanNumeral(int nDecimalInput, std::string& sRomanNumeral)
 {
-	return false;
+	int numberThousands = nDecimalInput / 1000;
+	int numberHundreds = (nDecimalInput % 1000) / 100;
+	int numberTens = (nDecimalInput % 100) / 10;
+	int numberOneUnits(nDecimalInput % 10);
+
+	
+
+	sRomanNumeral = "";
+
+	if (nDecimalInput > 10000)
+	{
+		return false;
+	}
+
+	if (nDecimalInput < 1)
+	{
+		return false;
+	}
+
+	if (nDecimalInput == 10000)
+	{
+		sRomanNumeral = "^X";
+	}
+
+	if (numberThousands > 0)
+	{
+		std::string output;
+		
+		getTenBaseValue(output, numberThousands, "M", "^V", "^X");
+		sRomanNumeral += output;
+	}
+
+	if (numberHundreds > 0)
+	{
+		std::string output;
+
+		getTenBaseValue(output, numberHundreds, "C", "D", "M");
+		sRomanNumeral += output;
+	}
+
+	if (numberTens > 0)
+	{
+		std::string output;
+
+		getTenBaseValue(output, numberTens, "X", "L", "C");
+		sRomanNumeral += output;
+	}
+
+	if (numberOneUnits > 0)
+	{
+		std::string output;
+
+		getTenBaseValue(output, numberOneUnits, "I", "V", "X");
+		sRomanNumeral += output;
+	}
+
+	return true;
 }
 
+
+void RomanNumeralData::getTenBaseValue(std::string& Output, int value, const std::string& unit, const std::string& fiveValue, const std::string& tenValue)
+{
+	switch (value)
+	{
+	case 1:
+		Output = unit;
+		break;
+	case 2:
+		Output = unit + unit;
+		break;
+	case 3:
+		Output = unit + unit + unit;
+		break;
+	case 4:
+		Output = unit + fiveValue;
+		break;
+	case 5:
+		Output = fiveValue;
+		break;
+	case 6:
+		Output = fiveValue + unit;
+
+		break;
+	case 7:
+		Output = fiveValue + unit + unit;
+		break;
+
+	case 8:
+		Output = fiveValue + unit + unit + unit;
+		break;
+	case 9:
+		Output = unit + tenValue;
+		break;
+
+	}
+}
 
 void RomanNumeralData::initValues()
 {

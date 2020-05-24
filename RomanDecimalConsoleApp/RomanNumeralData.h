@@ -35,6 +35,9 @@ public:
 	bool getRomanNumeral(int nDecimalInput, std::string& sRomanNumeral);
 	
 private:
+	
+	void getTenBaseValue(std::string& Ouput, int value, const std::string& unit, const std::string& fiveValue, const std::string& tenValue);
+
 	// inialises status and decimal value 
 	void initValues();
 

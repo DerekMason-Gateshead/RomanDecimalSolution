@@ -321,7 +321,8 @@
                 RomanInputTestData{ "M^vV", true, 4005 , eStatusCode::eSUCCESS },
                 RomanInputTestData{ "^v", true, 5000 , eStatusCode::eSUCCESS },
                 RomanInputTestData{ "^vVII", true, 5007 , eStatusCode::eSUCCESS },
-                RomanInputTestData{ "M^X", true, 9000, eStatusCode::eSUCCESS }
+                RomanInputTestData{ "M^X", true, 9000, eStatusCode::eSUCCESS },
+                RomanInputTestData{  "^X", true, 10000, eStatusCode::eSUCCESS}
 
             ));
             
@@ -347,7 +348,28 @@
         EXPECT_EQ((int)romanNumeralData->getStatusCode(), (int) as.statusCode);
     }
 
+    TEST_P(RomanDataTests, decimalToNumeral)
+    {
+        auto as = GetParam();
+        std::string s;
+        std::string s1;
+        int length =  as.romanNumber.length();
 
+        for (int i = 0; i < as.romanNumber.length(); i++)
+        {
+            s1 += toupper(as.romanNumber[i]);
+        }
+
+        if (as.expectedSuccess)
+        {
+            romanNumeralData->getRomanNumeral(as.expectedValue, s);
+            
+
+            EXPECT_STREQ(s1.c_str(),s.c_str());
+            
+        }
+       
+    }
     
 
     
