@@ -52,11 +52,18 @@ eStatusCode RomanNumeralData::getStatusCode()
 
 void RomanNumeralData::setRomanNumeralData(const std::string &data)
 {
+	int aRomanNumeralCounts[int(RomanIndex::FINAL_INDEX)];  // needs to contain I,V,X,L,C,D,M,5000,10000 counts
+
 	int indexLastValue = -1;
 	
 	bool hatChar = false; // used superceeded by V or X (for 5000 and 10000)
 
 	initValues();
+
+	for (size_t i = 0; i < (int(RomanIndex::FINAL_INDEX)); i++)
+	{
+		aRomanNumeralCounts[i] = 0;
+	}
 
 	// assume data is valid to start with
 	// we will fail on error
@@ -94,36 +101,33 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 				break;
 			}
 
-			RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_I,
-				ROMAN_I_INCREMENT,  
-				0, // No decrement for I as no possible pre values
-				indexLastValue, m_RomanNumeralCounts);
+			m_bDataValid = RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_I,
+								ROMAN_I_INCREMENT,  
+								0, // No decrement for I as no possible pre values
+								indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 			
 			indexLastValue = (int)RomanIndex::INDEX_I;
-			m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::I;
 			break;
 		case ROMAN_V_5:
 			if (hatChar)
 			{
 				hatChar = false;
 
-				RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_5000,
+			    m_bDataValid = RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_5000,
 					ROMAN_V_HAT_INCREMENT,
 					DECREMENT_IF_PREM,
-					indexLastValue, m_RomanNumeralCounts);
+					indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 
-				m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::ROMAN5000;
 				indexLastValue = (int)RomanIndex::INDEX_5000;
 				break;
 			}
 
-			RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_V,
-				ROMAN_V_INCREMENT,
-				DECREMENT_IF_PREI,
-				indexLastValue, m_RomanNumeralCounts);
+			m_bDataValid = RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_V,
+								ROMAN_V_INCREMENT,
+								DECREMENT_IF_PREI,
+								indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 
 			indexLastValue = (int)RomanIndex::INDEX_V;
-			m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::V;
 			break;
 
 		case ROMAN_X_10:
@@ -132,23 +136,21 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 			{
 				hatChar = false;
 
-				RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_10000,
+				 m_bDataValid =	RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_10000,
 					ROMAN_X_HAT_INCREMENT,
 					DECREMENT_IF_PREM,
-					indexLastValue, m_RomanNumeralCounts);
+					indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 
-				m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::ROMAN10000;
 				indexLastValue = (int)RomanIndex::INDEX_10000;
 				break;
 			}
 
 
-			RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_X,
+			m_bDataValid =	RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_X,
 				ROMAN_X_INCREMENT,
 				DECREMENT_IF_PREI,
-				indexLastValue, m_RomanNumeralCounts);
+				indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 
-			m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::X;
 			indexLastValue = (int)RomanIndex::INDEX_X;
 			break;
 
@@ -162,11 +164,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 				break;
 			}
 
-			RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_L,
-				ROMAN_L_INCREMENT,
-				DECREMENT_IF_PREX,
-				indexLastValue, m_RomanNumeralCounts);
-			m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::L;
+		    m_bDataValid =	RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_L,
+								ROMAN_L_INCREMENT,
+								DECREMENT_IF_PREX,
+								indexLastValue, aRomanNumeralCounts, m_eStatusCode);
+			
 			indexLastValue = (int)RomanIndex::INDEX_L;
 
 			break;
@@ -179,12 +181,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 				break;
 			}
 
-			RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_C,
+			m_bDataValid = RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_C,
 				ROMAN_C_INCREMENT,
 				DECREMENT_IF_PREX,
-				indexLastValue, m_RomanNumeralCounts);
+				indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 
-			m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::C;
 			indexLastValue = (int)RomanIndex::INDEX_C;
 
 			break;
@@ -199,12 +200,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 				break;
 			}
 
-			RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_D,
+ 			m_bDataValid = RomanNumeralData::handleHalfDecimalInput((int)RomanIndex::INDEX_D,
 				ROMAN_D_INCREMENT,
 				DECREMENT_IF_PREC,
-				indexLastValue, m_RomanNumeralCounts);
+				indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 
-			m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::D;
 			indexLastValue = (int)RomanIndex::INDEX_D;
 
 			break;
@@ -217,12 +217,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 				break;
 			}
 
-			RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_M,
+			m_bDataValid = RomanNumeralData::handleFullDecimalInput((int)RomanIndex::INDEX_M,
 				ROMAN_M_INCREMENT,
 				DECREMENT_IF_PREC,
-				indexLastValue, m_RomanNumeralCounts);
+				indexLastValue, aRomanNumeralCounts, m_eStatusCode);
 
-			m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::M;
 			indexLastValue = (int)RomanIndex::INDEX_M;
 
 			break;
@@ -251,6 +250,31 @@ int RomanNumeralData::romanDecimalValue()
 	return m_nDecimalValue;
 }
 
+bool RomanNumeralData::getRomanNumeral(const std::string &sDecValue, std::string& sRomanNumeral)
+{
+	int value = 0;
+	int multiplier = 10 * (sDecValue.length() - 1);
+	for (size_t i = 0; i < sDecValue.length(); i++)
+	{
+		if (!(isdigit(sDecValue[i])))
+		{
+			return false;
+		}
+
+		value = multiplier * (sDecValue[i] - '0');
+		multiplier /= 10;
+
+	}
+
+
+	return getRomanNumeral(value, sRomanNumeral);
+}
+
+bool RomanNumeralData::getRomanNumeral(int nDecimalInput, std::string& sRomanNumeral)
+{
+	return false;
+}
+
 
 void RomanNumeralData::initValues()
 {
@@ -260,20 +284,16 @@ void RomanNumeralData::initValues()
 
 	m_eStatusCode = eStatusCode::eUNINTIALISED;
 
-	for (size_t i = 0; i < (int (RomanIndex::FINAL_INDEX)); i++)
-	{
-		m_RomanNumeralCounts[i] = 0;
-	}
-
-	m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::Undef;
+	
 }
 
 // generic method to handle half values
-void RomanNumeralData::handleHalfDecimalInput(int index, 
+bool RomanNumeralData::handleHalfDecimalInput(int index, 
 											int incrementValue,
 											int decrementValue,
 											int indexLastValue,
-											int counters[int(RomanIndex::FINAL_INDEX)])
+											int counters[int(RomanIndex::FINAL_INDEX)],
+											eStatusCode &statusCode)
 {
 	#define OFFSET_FOR_INDEX_CHECK_COMPLETE 2
 	// we need to check that invalid counters have not been called
@@ -284,9 +304,8 @@ void RomanNumeralData::handleHalfDecimalInput(int index,
 		{
 			if (counters[i] > 0)
 			{
-				m_bDataValid = false;
-				m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
-				return;
+				statusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
+				return false;
 			}
 		}
 	}
@@ -297,21 +316,19 @@ void RomanNumeralData::handleHalfDecimalInput(int index,
 
 	if (counters[index] > MAX_HALF_ROMAN_NUMERALS)
 	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
-		return;
+		statusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
+		return false;
 	}
-	
-	
+
 	// this stuff is rependent on last value do if last value is index -1 
 	if ((index > 0) && (indexLastValue >= 0))
 	{
 		if ((index - 1) == indexLastValue)
 		{
-			if (m_RomanNumeralCounts[index - 1] > MAX_PRE_BASE_TEN)
+			if (counters[index - 1] > MAX_PRE_BASE_TEN)
 			{
-				m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
-				m_bDataValid = false;
+				statusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
+				return false;
 			}
 			else
 			{
@@ -322,9 +339,15 @@ void RomanNumeralData::handleHalfDecimalInput(int index,
 			counters[index - 1] = COUNT_AFTER_SUBRTACT_VALUE;
 		}
 	}
+	return true;
 }
 
-void RomanNumeralData::handleFullDecimalInput(int index, int incrementValue, int decrementValue, int indexLastValue, int counters[int(RomanIndex::FINAL_INDEX)])
+bool RomanNumeralData::handleFullDecimalInput(int index, 
+												int incrementValue, 
+												int decrementValue, 
+												int indexLastValue, 
+												int counters[int(RomanIndex::FINAL_INDEX)],
+												eStatusCode &statusCode)
 {
 #define OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE 3
 	// we need to check that invalid counters have not been called
@@ -335,9 +358,8 @@ void RomanNumeralData::handleFullDecimalInput(int index, int incrementValue, int
 		{
 			if (counters[i] > 0)
 			{
-				m_bDataValid = false;
-				m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
-				return;
+				statusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
+				return false;
 			}
 		}
 	}
@@ -347,9 +369,8 @@ void RomanNumeralData::handleFullDecimalInput(int index, int incrementValue, int
 		// one index less must be a half value which cannot be pre this
 		if (counters[index - 1] > 0)
 		{
-			m_bDataValid = false;
-			m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
-			return;
+			statusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
+			return false;
 		}
 	}
 
@@ -363,9 +384,8 @@ void RomanNumeralData::handleFullDecimalInput(int index, int incrementValue, int
 		{
 			if (counters[index - 2] > MAX_PRE_BASE_TEN)
 			{
-				m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
-				m_bDataValid = false;
-				return;
+				statusCode = eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES;
+				return false;
 			}
 			else
 			{
@@ -382,9 +402,11 @@ void RomanNumeralData::handleFullDecimalInput(int index, int incrementValue, int
 
 	if (counters[index] > MAX_BASE10_VALUES)
 	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES;
+		statusCode = eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES;
+		return false;
 	}
+
+	return true;
 }
 
 

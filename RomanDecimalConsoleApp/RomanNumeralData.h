@@ -2,8 +2,9 @@
 #include <string>
 #include "RomanNumeral.h"
 #include "HalfRomanNumeral.h"
-#include <vector>
+#include "FullRomanNumeral.h"
 
+// use to store limited status information on parsing of roman numeral
 enum  class eStatusCode
 {
 	eSUCCESS = 0,
@@ -18,20 +19,6 @@ enum  class eStatusCode
 	eUNINTIALISED = -1
 };
 
-enum class ROMAN_NUMERAL_VALUE
-{
-	Undef = 0,
-	I = 1,
-	V = 5,
-	X = 10,
-	L = 50,
-	C = 100,
-	D = 500,
-	M = 1000,
-	ROMAN5000 = 5000,
-	ROMAN10000 = 10000
-};
-
 class RomanNumeralData
 {
 public:
@@ -43,24 +30,32 @@ public:
 	eStatusCode getStatusCode();
 	void setRomanNumeralData(const std::string &data);
 	int romanDecimalValue();
+
+	bool getRomanNumeral(const std::string &sDecValue, std::string& sRomanNumeral);
+	bool getRomanNumeral(int nDecimalInput, std::string& sRomanNumeral);
+	
 private:
+	// inialises status and decimal value 
 	void initValues();
 
-	void handleHalfDecimalInput(int index, int incrementValue, int decrementValue, int indexLastValue, int counters[int(RomanIndex::FINAL_INDEX)]);
-	void handleFullDecimalInput(int index, int incrementValue, int decrementValue, int indexLastValue, int counters[int(RomanIndex::FINAL_INDEX)]);
-
+	// function to handle inppit roman numerals that are 1, 10, 100 etc
+	bool handleHalfDecimalInput(int index, 
+								int incrementValue, 
+								int decrementValue, 
+								int indexLastValue, 
+								int counters[int(RomanIndex::FINAL_INDEX)], 
+								eStatusCode& statusCode);
+	// function to handle input roman numerals that are 5, 50, 500 etc
+	bool handleFullDecimalInput(int index, 
+								int incrementValue, 
+								int decrementValue, 
+								int indexLastValue, 
+								int counters[int(RomanIndex::FINAL_INDEX)], 
+								eStatusCode& statusCode);
 private:
-	bool m_bDataValid;
+	bool m_bDataValid;  // set true if the current roman numeral data set is valid
+	int m_nDecimalValue; // decimal value from roman numeral string
+	eStatusCode m_eStatusCode; // status code giving limited information of fail
 	
-	int m_nDecimalValue;
-
-	eStatusCode m_eStatusCode;
-
-   int m_RomanNumeralCounts[int(RomanIndex::FINAL_INDEX)];  // needs to contain I,V,X,L,C,D,M,5000,10000 counts
-
-	int m_nCountRomanNumeral5000inInput; // V with line above counter for 5000 roman numerals we use ^V or ^v
-	int m_nCountRomanNumeral_10000inInput; // X with line above for 10000 roman numerals - we use ^X or ^x
-
-	ROMAN_NUMERAL_VALUE m_nLastRomanNumeral;
 };
 
