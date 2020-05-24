@@ -320,7 +320,9 @@
                 RomanInputTestData{ "MMMM", false, -1 , eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES },
                 RomanInputTestData{ "M^vV", true, 4005 , eStatusCode::eSUCCESS },
                 RomanInputTestData{ "^v", true, 5000 , eStatusCode::eSUCCESS },
-                RomanInputTestData{ "^vVII", true, 5007 , eStatusCode::eSUCCESS }
+                RomanInputTestData{ "^vVII", true, 5007 , eStatusCode::eSUCCESS },
+                RomanInputTestData{ "M^X", true, 9000, eStatusCode::eSUCCESS }
+
             ));
             
 
