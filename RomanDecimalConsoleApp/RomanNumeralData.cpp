@@ -386,64 +386,6 @@ void RomanNumeralData::handleRomanNumeral_I()
 	m_nLastRomanNumeral = ROMAN_NUMERAL_VALUE::I;
 }
 
-// Handle when a roman 5 (V) is received in string of data
-void RomanNumeralData::handleRomanNumeral_V()
-{
-	m_RomanNumeralCounts[(int)RomanIndex::INDEX_V]++;
-	m_nDecimalValue += ROMAN_V_INCREMENT;
-
-	// we should never have more than a single V in our string
-	// or data is invalid
-	if (m_RomanNumeralCounts[(int)RomanIndex::INDEX_V] > MAX_HALF_ROMAN_NUMERALS)
-	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
-		return;
-	}
-
-	switch (m_nLastRomanNumeral)
-	{
-	case ROMAN_NUMERAL_VALUE::I:
-		lastRomanNumeral_I();  // handles if a preceeding I
-		break;
-	default: // for V anything else is greater or V is first numeral so nothing to do
-		break;
-	}
-}
-
-// Handles the receit of roman 5000 (we use ^v or ^V
-void RomanNumeralData::handleRomanNumeralfor5000()
-{
-	// check to make sure not used previously as should
-	// never be more than one occurence
-	if (m_RomanNumeralCounts[(int)RomanIndex::INDEX_5000] > 0)
-	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
-		return;
-	}
-
-	m_RomanNumeralCounts[(int)RomanIndex::INDEX_5000]++;
-	m_nDecimalValue += ROMAN_V_HAT_INCREMENT;
-
-	switch (m_nLastRomanNumeral)
-	{
-	case ROMAN_NUMERAL_VALUE::M:
-		lastRomanNumeral_M(); // if preceeded by M we need to check M value and decrement or fail as appropriate
-		break;
-	case ROMAN_NUMERAL_VALUE::Undef: // if undef then first data so OK
-	
-		break;
-	case ROMAN_NUMERAL_VALUE::ROMAN10000: // will take us well out of range
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_RANGE_ERROR;
-		break;
-	default: // all others are invalid for 5000
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
-		break;
-	}
-}
 
 // Handles the receit of the roman 10 (X)
 void RomanNumeralData::handleRomanNumeral_X()
@@ -476,31 +418,6 @@ void RomanNumeralData::handleRomanNumeral_X()
 
 }
 
-// Handles Actions when a roman numeral L (50) is in input 
-void RomanNumeralData::handleRomanNumeral_L()
-{
-	// we should not have an I or V preceeding the L 
-	if ((m_RomanNumeralCounts[(int)RomanIndex::INDEX_V] > 0) || (m_RomanNumeralCounts[(int)RomanIndex::INDEX_I] > 0))
-	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
-	}
-
-	m_RomanNumeralCounts[(int)RomanIndex::INDEX_L]++;
-	m_nDecimalValue += ROMAN_L_INCREMENT;
-
-	if (m_RomanNumeralCounts[(int)RomanIndex::INDEX_L] > MAX_HALF_ROMAN_NUMERALS)
-	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
-		return;
-	}
-
-	// call lastRomanNumeral_X to sort out subtraciot as preceeded by X
-	if (m_nLastRomanNumeral == ROMAN_NUMERAL_VALUE::X)
-									lastRomanNumeral_X();
-	
-}
 
 // Handles the input of the roman numeral C 100 from stream
 void RomanNumeralData::handleRomanNumeral_C()
@@ -533,34 +450,6 @@ void RomanNumeralData::handleRomanNumeral_C()
 
 }
 
-// Handles when a roman D 500 in input stream
-void RomanNumeralData::handleRomanNumeral_D()
-{
-	// should not be preceeded by anything lower in input stream except C
-	if ((m_RomanNumeralCounts[(int)RomanIndex::INDEX_V] > 0) || (m_RomanNumeralCounts[(int)RomanIndex::INDEX_L] > 0)
-		|| (m_RomanNumeralCounts[(int)RomanIndex::INDEX_X] > 0) || (m_RomanNumeralCounts[(int)RomanIndex::INDEX_I] > 0))
-	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER;
-		return;
-	}
-
-	// now lets increment our counter 
-	m_RomanNumeralCounts[(int)RomanIndex::INDEX_D]++;
-	m_nDecimalValue += ROMAN_D_INCREMENT;
-
-	// should not be more than one D is stream
-	if (m_RomanNumeralCounts[(int)RomanIndex::INDEX_D] > MAX_HALF_ROMAN_NUMERALS)
-	{
-		m_bDataValid = false;
-		m_eStatusCode = eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES;
-		return;
-	}
-
-	// if preceeded by a C we need to call lastRomanNumeral this will check is valid and handle subtraction
-	if (m_nLastRomanNumeral == ROMAN_NUMERAL_VALUE::C)
-									lastRomanNumeral_C();
-}
 
 // handles roman numeral M 1000
 void RomanNumeralData::handleRomanNumeral_M()

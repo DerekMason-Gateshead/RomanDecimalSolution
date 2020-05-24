@@ -55,12 +55,8 @@ private:
 	void handleHalfDecimalInput(int index, int incrementValue, int decrementValue, int indexLastValue, int counters[int(RomanIndex::FINAL_INDEX)]);
 
 	void handleRomanNumeral_I();  // Handles the receit of roman 1 
-	void handleRomanNumeral_V();  // Handles the receit of V roman 5
-	void handleRomanNumeralfor5000(); // Handles the receit of roman 5000 (we use ^v or ^V
 	void handleRomanNumeral_X(); // Handles the receit of roman number 10 (X)
-	void handleRomanNumeral_L(); // handles roman numeral 50 L
 	void handleRomanNumeral_C(); // handle roman numeral 100 C
-	void handleRomanNumeral_D(); // handle roman numeral D 500
 	void handleRomanNumeral_M(); // handle roman numeral M 1000
 
 private:
