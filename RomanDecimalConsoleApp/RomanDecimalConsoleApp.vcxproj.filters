@@ -24,12 +24,30 @@
     <ClCompile Include="userInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="RomanNumeral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HalfRomanNumeral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FullRomanNumeral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RomanNumeralData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="userInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RomanNumeral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HalfRomanNumeral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FullRomanNumeral.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

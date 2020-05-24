@@ -147,11 +147,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FullRomanNumeral.cpp" />
+    <ClCompile Include="HalfRomanNumeral.cpp" />
     <ClCompile Include="RomanDecimalConsoleApp.cpp" />
+    <ClCompile Include="RomanNumeral.cpp" />
     <ClCompile Include="RomanNumeralData.cpp" />
     <ClCompile Include="userInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FullRomanNumeral.h" />
+    <ClInclude Include="HalfRomanNumeral.h" />
+    <ClInclude Include="RomanNumeral.h" />
     <ClInclude Include="RomanNumeralData.h" />
     <ClInclude Include="userInterface.h" />
   </ItemGroup>
