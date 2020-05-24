@@ -8,14 +8,14 @@ enum  eStatusCode
 	eFAIL_TOO_MANY_BASE10_VALUES = 2,
 	eFAIL_TOO_MANY_PRE_BASE_10_VALUES = 3,
 	eFAIL_TOO_MANT_HALF_TEN_VALUES = 4,
-	eFAIL_HALF_VALUES_NOT_ALLOWED_PRE = 5,
-	eFAIL_INVALID_PRE_VALUE_FOR_NUMBER = 6,
-	eFAIL_PREV_USER_PRE_HIGHER_VALUE = 7,
-	eFAIL_BLANK_DATA = 8,
+	eFAIL_INVALID_PRE_VALUE_FOR_NUMBER = 5,
+	eFAIL_PREV_USER_PRE_HIGHER_VALUE = 6,
+	eFAIL_BLANK_DATA = 7,
+	eFAIL_RANGE_ERROR = 8,
 	eUNINTIALISED = -1
 };
 
-enum class CURRENT_ROMAN_VALUE
+enum class ROMAN_NUMERAL_VALUE
 {
 	Undef = 0,
 	I = 1,
@@ -42,32 +42,43 @@ public:
 	void setRomanNumeralData(const std::string &data);
 	int romanDecimalValue();
 private:
-	bool lastValueI();
-	bool lastValueX();
-	bool lastValueC();
-	bool lastValueM();
+	void lastRomanNumeral_I(); // called when a V or X is preceeded by an I
+	void lastRomanNumeral_X();
+	void lastRomanNumeral_C();
+	void lastRomanNumeral_M();
 	void initValues();
+
+
+	void handleRomanNumeral_I();  // Handles the receit of roman 1 
+	void handleRomanNumeral_V();  // Handles the receit of V roman 5
+	void handleRomanNumeralfor5000(); // Handles the receit of roman 5000 (we use ^v or ^V
+	void handleRomanNumeral_X(); // Handles the receit of roman number 10 (X)
+	void handleRomanNumeral_L(); // handles roman numeral 50 L
+	void handleRomanNumeral_C(); // handle roman numeral 100 C
+	void handleRomanNumeral_D(); // handle roman numeral D 500
+	void handleRomanNumeral_M(); // handle roman numeral M 1000
+
 private:
 	bool m_bDataValid;
 	
 	int m_nDecimalValue;
 
 	eStatusCode m_eStatusCode;
-	int m_nIvalues; 
-	int m_nVvalues;
-	int m_nXvalues;
-	int m_nLvalues;
-	int m_nCvalues;
-	int m_nDvalues;
-	int m_nMvalues;
+	int m_nCountRomanNumeral_I_inInput; // to store number of roman numeral I (1) in string
+	int m_nCountRomanNumeral_V_inInput; // to store number of roman numeral V (5) in string
+	int m_nCountRomanNumeral_X_inInput; 
+	int m_nCountRomanNumeral_L_inInput;
+	int m_nCountRomanNumeral_C_inInput;
+	int m_nCountRomanNumeral_D_inInput;
+	int m_nCountRomanNumeral_M_inInput;
 
-	int m_n_5000value; // V with line above counter for 5000 roman numerals we use ^V or ^v
-	int m_n_10000value; // X with line above for 10000 roman numerals - we use ^X or ^x
+	int m_nCountRomanNumeral5000inInput; // V with line above counter for 5000 roman numerals we use ^V or ^v
+	int m_nCountRomanNumeral_10000inInput; // X with line above for 10000 roman numerals - we use ^X or ^x
 
 	bool m_bIusedPreValue;
 	bool m_bXusedPreValue;
 	bool m_bCusedPreValue;
 
-	CURRENT_ROMAN_VALUE lastValue;
+	ROMAN_NUMERAL_VALUE m_nLastRomanNumeral;
 };
 
