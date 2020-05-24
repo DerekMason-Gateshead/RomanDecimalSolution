@@ -31,25 +31,31 @@
 
 #define COUNT_AFTER_SUBRTACT_VALUE 4
 
+// constructor
 RomanNumeralData::RomanNumeralData()
 {
 	initValues();
 }
 
+// destructor
 RomanNumeralData::~RomanNumeralData()
 {
 }
 
+//  returns true if the parsed roman numeral data is good
 bool RomanNumeralData::IsDataValid()
 {
 	return m_bDataValid;
 }
 
+// returns status code of data parsing on roman numeral input string
 eStatusCode RomanNumeralData::getStatusCode()
 {
 	return m_eStatusCode;
 }
 
+// setRomanNumeralData - this takes in the data and sets up the decimal value of the roman numeral from it
+// checking the data has valid data, the effected members are m_sSTatusCode, m_bDataValid and m_nDecimal in methods called
 void RomanNumeralData::setRomanNumeralData(const std::string &data)
 {
 	int aRomanNumeralCounts[int(RomanIndex::FINAL_INDEX)];  // needs to contain I,V,X,L,C,D,M,5000,10000 counts
@@ -234,6 +240,14 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 		}
 	}
 
+	if (m_bDataValid)
+	{
+		if (m_nDecimalValue > 10000)
+		{
+			m_eStatusCode = eStatusCode::eFAIL_RANGE_ERROR;
+			m_bDataValid = false;
+		}
+	}
 
 	if (m_bDataValid)
 	{
@@ -245,11 +259,14 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 	}
 }
 
+// returns the value set up from the roman numeral data passed in setRomanNumeral
 int RomanNumeralData::romanDecimalValue()
 {
 	return m_nDecimalValue;
 }
 
+// Get romman numeral output from a decimal string - this convert to decimal and call overloaded method
+// if not a decimal value in sDecValue then returns false else returns from overload method
 bool RomanNumeralData::getRomanNumeral(const std::string &sDecValue, std::string& sRomanNumeral)
 {
 	int value = 0;
@@ -271,15 +288,14 @@ bool RomanNumeralData::getRomanNumeral(const std::string &sDecValue, std::string
 }
 
 
-
+// gets a roman numeral string from an integer input range (1 to 10000)
+// returns true if in range else false
 bool RomanNumeralData::getRomanNumeral(int nDecimalInput, std::string& sRomanNumeral)
 {
 	int numberThousands = nDecimalInput / 1000;
 	int numberHundreds = (nDecimalInput % 1000) / 100;
 	int numberTens = (nDecimalInput % 100) / 10;
 	int numberOneUnits(nDecimalInput % 10);
-
-	
 
 	sRomanNumeral = "";
 
@@ -333,8 +349,15 @@ bool RomanNumeralData::getRomanNumeral(int nDecimalInput, std::string& sRomanNum
 	return true;
 }
 
-
-void RomanNumeralData::getTenBaseValue(std::string& Output, int value, const std::string& unit, const std::string& fiveValue, const std::string& tenValue)
+// Gets a ten pase value from the value, the roman output is dependent on the unit, fivevalue and ten value
+// i.e. for 10,20,...90 use X for unit L for fivevalue and C for tenValue, note we needed strings for 
+// 5000 and 10000
+// The string return is set in output
+void RomanNumeralData::getTenBaseValue(std::string& Output, 
+										int value, 
+										const std::string& unit, 
+										const std::string& fiveValue, 
+										const std::string& tenValue)
 {
 	switch (value)
 	{
@@ -371,6 +394,7 @@ void RomanNumeralData::getTenBaseValue(std::string& Output, int value, const std
 	}
 }
 
+// initalise values when converting roman to decimal
 void RomanNumeralData::initValues()
 {
 	m_bDataValid = false;
@@ -383,6 +407,15 @@ void RomanNumeralData::initValues()
 }
 
 // generic method to handle half values
+// index is the index into the counters for the specic unit to evaluate 
+// increment value is the value to add to the member decimalvalue
+// decrementvalue is the value to decrement the decimal value if preceded by the approriate value (i.e for V then I)
+// indexLastValue is an index for the last value prior to this (note -1 indicates this is first value) this is
+//				   used to determine if we need to decrement (i.e if one less than index
+//  counters reference to an ammendable set of counters - if values of a lower value proceeded this and they are
+//                                                        not allowed we can determine an error
+//  statusCode allows us to give limited info on the reason for an error
+//  return is true if we have no problems with the data else it is false
 bool RomanNumeralData::handleHalfDecimalInput(int index, 
 											int incrementValue,
 											int decrementValue,
@@ -437,6 +470,16 @@ bool RomanNumeralData::handleHalfDecimalInput(int index,
 	return true;
 }
 
+// this handles all unit and 10 x unit data
+// index is the index into the counters for the specic unit to evaluate 
+// increment value is the value to add to the member decimalvalue
+// decrementvalue is the value to decrement the decimal value if preceded by the approriate value (i.e for C then X)
+// indexLastValue is an index for the last value prior to this (note -1 indicates this is first value) this is
+//				   used to determine if we need to decrement i.e if 2 less than index
+//  counters reference to an ammendable set of counters - if values of a lower value proceeded this and they are
+//                                                        not allowe we can determine an error
+//  statusCode allows us to give limited info on the reason for an error
+//  return is true if we have no problems with the data else it is false
 bool RomanNumeralData::handleFullDecimalInput(int index, 
 												int incrementValue, 
 												int decrementValue, 
