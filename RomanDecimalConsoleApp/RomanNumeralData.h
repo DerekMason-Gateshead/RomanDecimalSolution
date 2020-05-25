@@ -20,24 +20,22 @@ public:
 
 	
 private:
-	
-
 	// inialises status and decimal value 
 	void initValues();
 
 	// function to handle inppit roman numerals that are 1, 10, 100 etc
-	void handleHalfDecimalInput(int index, 
-								int incrementValue, 
-								int decrementValue, 
-								dataForRomanNumeralInput& dataRomanNumeralString,
-								localDataForRomanNumeralInput& localInputData);
+//	void handleHalfDecimalInput(int index, 
+//								int incrementValue, 
+//								int decrementValue, 
+//								dataForRomanNumeralInput& dataRomanNumeralString,
+//								localDataForRomanNumeralInput& localInputData);
 
 	// function to handle input roman numerals that are 5, 50, 500 etc
-	void handleFullDecimalInput(int index, 
-								int incrementValue, 
-								int decrementValue, 
-								dataForRomanNumeralInput& dataRomanNumeralString,
-								localDataForRomanNumeralInput& localInputData);
+//	void handleFullDecimalInput(int index, 
+//								int incrementValue, 
+//								int decrementValue, 
+//								dataForRomanNumeralInput& dataRomanNumeralString,
+//								localDataForRomanNumeralInput& localInputData);
 
 private:
 //	bool m_bDataValid;  // set true if the current roman numeral data set is valid

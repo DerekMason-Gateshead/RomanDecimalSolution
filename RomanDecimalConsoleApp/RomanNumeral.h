@@ -1,5 +1,10 @@
 #pragma once
 
+#define MAX_BASE10_VALUES 3
+#define MAX_PRE_BASE_TEN  1
+#define MAX_HALF_ROMAN_NUMERALS 1  // For valuse with five in (i.e. half base 10) we are only allowed a single instance
+#define COUNT_AFTER_SUBRTACT_VALUE 4
+
 enum class RomanIndex
 {
 	INDEX_I = 0,
@@ -84,7 +89,21 @@ struct localDataForRomanNumeralInput
 class RomanNumeral
 {
 public:
-	RomanNumeral(SetupRomanNumeral setupData);
+	RomanNumeral(int Index, int incrementValue, int decrementValue);
+protected:
+	 
+
+// decrementvalue is the value to decrement the decimal value if preceded by the approriate value (i.e for C then X)
+
+	// index is the index into the Roman Numeral set up for (used for handling counter info)
+	int index;
+
+	// increment value is has the value to add to value for this number
+	int incrementValue;
+
+	// decrementvalue is the value to decrement the value if preceded by the approriate value (i.e for C then X)
+	int decrementValue;
+
 	virtual ~RomanNumeral();
 
 
@@ -92,6 +111,6 @@ public:
 	virtual void HandleInput(dataForRomanNumeralInput &dataRomanNumeralString, 
 								localDataForRomanNumeralInput &localInputData) = 0;
 	
-
+	
 };
 
