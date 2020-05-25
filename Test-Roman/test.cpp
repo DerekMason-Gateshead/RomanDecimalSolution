@@ -333,6 +333,29 @@
             ));
             
 
+    TEST(AdditionalDecimalTests, DecimalValues)
+    {
+        DecimalToRoman decimalToRoman;
+                
+        std::string returnString;
+                
+        EXPECT_FALSE(decimalToRoman.getRomanNumeral(10001, returnString));
+        EXPECT_FALSE(decimalToRoman.getRomanNumeral(10060, returnString));        
+        EXPECT_FALSE(decimalToRoman.getRomanNumeral(20001, returnString));
+
+        EXPECT_FALSE(decimalToRoman.getRomanNumeral("XVVV", returnString));
+        EXPECT_FALSE(decimalToRoman.getRomanNumeral("145&7", returnString));
+        EXPECT_FALSE(decimalToRoman.getRomanNumeral("2B0001", returnString));
+
+        EXPECT_TRUE(decimalToRoman.getRomanNumeral("1234", returnString));
+
+        EXPECT_STREQ(returnString.c_str(), "MCCXXXIV");
+
+        EXPECT_TRUE(decimalToRoman.getRomanNumeral("5678", returnString));
+
+        EXPECT_STREQ(returnString.c_str(), "^VDCLXXVIII");
+
+    }
     TEST_P(RomanDataTests, dataValidTest)
     {
             auto as = GetParam();
@@ -366,12 +389,17 @@
             s1 += toupper(as.romanNumber[i]);
         }
 
+        bool success = decimalToRoman->getRomanNumeral(as.expectedValue, s);
+
+        EXPECT_EQ(success, as.expectedSuccess);
+
         if (as.expectedSuccess)
         {
-            decimalToRoman->getRomanNumeral(as.expectedValue, s);
-            
-
             EXPECT_STREQ(s1.c_str(),s.c_str());
+            
+        }
+        else
+        {
             
         }
        
