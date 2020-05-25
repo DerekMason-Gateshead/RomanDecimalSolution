@@ -34,6 +34,11 @@ bool DecimalToRoman::getRomanNumeral(int nDecimalInput, std::string& sRomanNumer
 	int numberTens = (nDecimalInput % 100) / 10;
 	int numberOneUnits(nDecimalInput % 10);
 
+	const valuesForTenBase valuesTenBaseThousands = { "M", "^V", "^X" };
+	const valuesForTenBase valuesTenBaseHundreds = { "C","D","M" };
+	const valuesForTenBase valueTenBaseTens = { "X", "L", "C" };
+	const valuesForTenBase valueTenBaseUnits = { "I", "V", "X" };
+
 	sRomanNumeral = "";
 
 	if (nDecimalInput > 10000)
@@ -55,7 +60,7 @@ bool DecimalToRoman::getRomanNumeral(int nDecimalInput, std::string& sRomanNumer
 	{
 		std::string output;
 
-		getTenBaseValue(output, numberThousands, "M", "^V", "^X");
+		getTenBaseValue(output, numberThousands, valuesTenBaseThousands);
 		sRomanNumeral += output;
 	}
 
@@ -63,7 +68,7 @@ bool DecimalToRoman::getRomanNumeral(int nDecimalInput, std::string& sRomanNumer
 	{
 		std::string output;
 
-		getTenBaseValue(output, numberHundreds, "C", "D", "M");
+		getTenBaseValue(output, numberHundreds, valuesTenBaseHundreds);
 		sRomanNumeral += output;
 	}
 
@@ -71,7 +76,7 @@ bool DecimalToRoman::getRomanNumeral(int nDecimalInput, std::string& sRomanNumer
 	{
 		std::string output;
 
-		getTenBaseValue(output, numberTens, "X", "L", "C");
+		getTenBaseValue(output, numberTens, valueTenBaseTens);
 		sRomanNumeral += output;
 	}
 
@@ -79,55 +84,52 @@ bool DecimalToRoman::getRomanNumeral(int nDecimalInput, std::string& sRomanNumer
 	{
 		std::string output;
 
-		getTenBaseValue(output, numberOneUnits, "I", "V", "X");
+		getTenBaseValue(output, numberOneUnits, valueTenBaseUnits);
+		
 		sRomanNumeral += output;
 	}
 
 	return true;
 }
 
-
-
 // Gets a ten pase value from the value, the roman output is dependent on the unit, fivevalue and ten value
 // i.e. for 10,20,...90 use X for unit L for fivevalue and C for tenValue, note we needed strings for 
 // 5000 and 10000
 // The string return is set in output
-void DecimalToRoman::getTenBaseValue(std::string& Output,
-	int value,
-	const std::string& unit,
-	const std::string& fiveValue,
-	const std::string& tenValue)
+void DecimalToRoman::getTenBaseValue(std::string& Output, int value, const valuesForTenBase &valueSet)
 {
+	Output = "";
+	
 	switch (value)
 	{
 	case 1:
-		Output = unit;
+		Output = valueSet.unit;
 		break;
 	case 2:
-		Output = unit + unit;
+		Output = valueSet.unit + valueSet.unit;
 		break;
 	case 3:
-		Output = unit + unit + unit;
+		Output = valueSet.unit + valueSet.unit + valueSet.unit;
 		break;
 	case 4:
-		Output = unit + fiveValue;
+		Output = valueSet.unit + valueSet.fiveValue;
 		break;
 	case 5:
-		Output = fiveValue;
+		Output = valueSet.fiveValue;
 		break;
 	case 6:
-		Output = fiveValue + unit;
+		Output = valueSet.fiveValue + valueSet.unit;
 
 		break;
 	case 7:
-		Output = fiveValue + unit + unit;
+		Output = valueSet.fiveValue + valueSet.unit + valueSet.unit;
 		break;
 
 	case 8:
-		Output = fiveValue + unit + unit + unit;
+		Output = valueSet.fiveValue + valueSet.unit + valueSet.unit + valueSet.unit;
 		break;
 	case 9:
-		Output = unit + tenValue;
+		Output = valueSet.unit + valueSet.tenValue;
 		break;
 
 	}
