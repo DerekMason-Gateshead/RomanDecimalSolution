@@ -1,6 +1,5 @@
 #include "HalfRomanNumeral.h"
 
-void HalfRomanNumeral::HandleInput()
+void HalfRomanNumeral::HandleInput(dataForRomanNumeralInput& dataRomanNumeralString, localDataForRomanNumeralInput& localInputData)
 {
-	// Todo
 }

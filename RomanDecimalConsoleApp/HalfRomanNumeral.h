@@ -4,7 +4,8 @@ class HalfRomanNumeral :
 	public RomanNumeral
 {
 public:
-	void HandleInput() override;
+	void HandleInput(dataForRomanNumeralInput& dataRomanNumeralString,
+						localDataForRomanNumeralInput &localInputData) override;
 };
 
 
