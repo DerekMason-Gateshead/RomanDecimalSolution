@@ -126,6 +126,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DecimalToRoman.cpp" />
     <ClCompile Include="FullRomanNumeral.cpp" />
     <ClCompile Include="HalfRomanNumeral.cpp" />
     <ClCompile Include="RomanDecimalConsoleApp.cpp" />
@@ -155,6 +157,7 @@
     <ClCompile Include="userInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DecimalToRoman.h" />
     <ClInclude Include="FullRomanNumeral.h" />
     <ClInclude Include="HalfRomanNumeral.h" />
     <ClInclude Include="RomanNumeral.h" />

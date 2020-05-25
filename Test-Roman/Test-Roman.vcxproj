@@ -70,7 +70,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>../RomanDecimalConsoleApp/Debug/RomanNumeralData.obj;../RomanDecimalConsoleApp/Debug/RomanNumeral.obj;../RomanDecimalConsoleApp/Debug/HalfRomanNumeral.obj;../RomanDecimalConsoleApp/Debug/FullRomanNumeral.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../RomanDecimalConsoleApp/Debug/RomanNumeralData.obj;../RomanDecimalConsoleApp/Debug/RomanNumeral.obj;../RomanDecimalConsoleApp/Debug/HalfRomanNumeral.obj;../RomanDecimalConsoleApp/Debug/FullRomanNumeral.obj;../RomanDecimalConsoleApp/Debug/DecimalToRoman.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,6 +102,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

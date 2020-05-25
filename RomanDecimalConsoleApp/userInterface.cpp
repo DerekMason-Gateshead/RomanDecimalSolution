@@ -3,7 +3,7 @@
 using namespace std;
 #include <conio.h>
 #include "RomanNumeralData.h"
-
+#include "DecimalToRoman.h"
 
 
 
@@ -93,7 +93,7 @@ void userInterface::InputDecimalData()
 	int nValue;
 	getline(cin, input);
 
-	RomanNumeralData romanData;
+	DecimalToRoman romanData;
 
 	bool passed = romanData.getRomanNumeral(input, output);
 

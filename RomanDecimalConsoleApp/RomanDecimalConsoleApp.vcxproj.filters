@@ -33,6 +33,9 @@
     <ClCompile Include="FullRomanNumeral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DecimalToRoman.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RomanNumeralData.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FullRomanNumeral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DecimalToRoman.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

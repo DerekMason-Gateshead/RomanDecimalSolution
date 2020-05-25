@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "..\RomanDecimalConsoleApp\RomanNumeralData.h"
-
+#include "..\RomanDecimalConsoleApp\DecimalToRoman.h"
     struct RomanInputTestData
     {
         std::string romanNumber;
@@ -22,14 +22,20 @@
     struct RomanInputDataTest : testing::Test
     {
         RomanNumeralData* romanNumeralData;
+        DecimalToRoman* decimalToRoman;
         RomanInputDataTest()
         {
+            decimalToRoman = new DecimalToRoman();
             romanNumeralData = new RomanNumeralData();
         }
 
-        virtual ~RomanInputDataTest() { delete romanNumeralData; }
+        virtual ~RomanInputDataTest() 
+        {
+            delete romanNumeralData; delete decimalToRoman;
+        }
     };
 
+   
     struct RomanDataTests : RomanInputDataTest, testing::WithParamInterface<RomanInputTestData>
     {
         RomanDataTests()
@@ -362,7 +368,7 @@
 
         if (as.expectedSuccess)
         {
-            romanNumeralData->getRomanNumeral(as.expectedValue, s);
+            decimalToRoman->getRomanNumeral(as.expectedValue, s);
             
 
             EXPECT_STREQ(s1.c_str(),s.c_str());
