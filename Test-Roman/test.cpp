@@ -331,7 +331,7 @@
                 RomanInputTestData{  "^X", true, 10000, eStatusCode::eSUCCESS}
 
             ));
-            
+     
 
     TEST(AdditionalDecimalTests, DecimalValues)
     {
