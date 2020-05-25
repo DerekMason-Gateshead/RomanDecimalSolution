@@ -38,10 +38,8 @@ private:
 //								localDataForRomanNumeralInput& localInputData);
 
 private:
-//	bool m_bDataValid;  // set true if the current roman numeral data set is valid
-//	int m_nDecimalValue; // decimal value from roman numeral string
-//	eStatusCode m_eStatusCode; // status code giving limited information of fail
-	
+
+	// contains status, decimal value and error codes
 	dataForRomanNumeralInput m_romanNumeralDataForInput;
 };
 

@@ -1,12 +1,10 @@
 #include "FullRomanNumeral.h"
 
 // this handles all unit and 10 x unit data
-// indexLastValue is an index for the last value prior to this (note -1 indicates this is first value) this is
-//				   used to determine if we need to decrement i.e if 2 less than index
-//  counters reference to an ammendable set of counters - if values of a lower value proceeded this and they are
-//                                                        not allowe we can determine an error
-//  statusCode allows us to give limited info on the reason for an error
-//  return is true if we have no problems with the data else it is false
+// this effects data in dataRomanNumeralString and localInputData
+// dataRomanNumeralString has it decimal value updates and if an error the status info
+// localInputData - the counter for this index and the last index are updated, other counter 
+//  info is used for error checking, lastIndex is used to check for pre roman numerals
 void FullRomanNumeral::HandleInput(dataForRomanNumeralInput& dataRomanNumeralString, localDataForRomanNumeralInput& localInputData)
 {
 #define OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE 3

@@ -1,6 +1,11 @@
 #include "HalfRomanNumeral.h"
 
 
+// this handles all half units, i.e 5, 50, 500 etc
+// this effects data in dataRomanNumeralString and localInputData
+// dataRomanNumeralString has it decimal value updates and if an error the status info
+// localInputData - the counter for this index and the last index are updated, other counter 
+//  info is used for error checking, lastIndex is used to check for pre roman numerals
 void HalfRomanNumeral::HandleInput(dataForRomanNumeralInput& dataRomanNumeralString, localDataForRomanNumeralInput& localInputData)
 {
 #define OFFSET_FOR_INDEX_CHECK_COMPLETE 2
@@ -19,9 +24,9 @@ void HalfRomanNumeral::HandleInput(dataForRomanNumeralInput& dataRomanNumeralStr
 	}
 
 	localInputData.counters[index]++;
-
 	dataRomanNumeralString.decimalValue += incrementValue;
 
+	// we should never have more than one instance of a half value
 	if (localInputData.counters[index] > MAX_HALF_ROMAN_NUMERALS)
 	{
 		dataRomanNumeralString.setError(eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES);

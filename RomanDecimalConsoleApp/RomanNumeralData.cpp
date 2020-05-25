@@ -51,9 +51,10 @@ eStatusCode RomanNumeralData::getStatusCode()
 	return m_romanNumeralDataForInput.statusCode;
 }
 
-// setRomanNumeralData - this takes in the data and sets up the decimal value of the roman numeral from it
-// checking the data has valid data, the effected members are m_sSTatusCode, m_bDataValid and m_nDecimal in methods called
-void RomanNumeralData::setRomanNumeralData(const std::string &data)
+// setRomanNumeralData - this takes in the data in string sRomanNumeral
+// and sets up the decimal value of the roman numeral from it checking the 
+// data has valid data, the data in m_romanNumeralDataForInput is updated
+void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 {
 	HalfRomanNumeral numeral_V((int)RomanIndex::INDEX_V,
 										ROMAN_V_INCREMENT,
@@ -101,16 +102,16 @@ void RomanNumeralData::setRomanNumeralData(const std::string &data)
 	// we will fail on error
 	m_romanNumeralDataForInput.valid = true;
 
-	if (data.length() == 0)
+	if (sRomanNumeral.length() == 0)
 	{
 		m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_BLANK_DATA);
 	}
 
-	for (size_t i = 0; i < data.length(); i++)
+	for (size_t i = 0; i < sRomanNumeral.length(); i++)
 	{
 		if (!m_romanNumeralDataForInput.valid) break;
 
-		switch (toupper(data[i]))
+		switch (toupper(sRomanNumeral[i]))
 		{
 		case SPECIAL_PRE_MULTIPLIER:
 			if (hatChar)
@@ -243,68 +244,4 @@ void RomanNumeralData::initValues()
 {
 	m_romanNumeralDataForInput.Init();
 }
-
-// generic method to handle half values
-// index is the index into the counters for the specic unit to evaluate 
-// increment value is the value to add to the member decimalvalue
-// decrementvalue is the value to decrement the decimal value if preceded by the approriate value (i.e for V then I)
-// indexLastValue is an index for the last value prior to this (note -1 indicates this is first value) this is
-//				   used to determine if we need to decrement (i.e if one less than index
-//  counters reference to an ammendable set of counters - if values of a lower value proceeded this and they are
-//                                                        not allowed we can determine an error
-//  statusCode allows us to give limited info on the reason for an error
-//  return is true if we have no problems with the data else it is false
-/*
-void RomanNumeralData::handleHalfDecimalInput(int index, 
-											int incrementValue,
-											int decrementValue,
-											dataForRomanNumeralInput& dataRomanNumeralString,
-											localDataForRomanNumeralInput& localInputData)
-{
-	#define OFFSET_FOR_INDEX_CHECK_COMPLETE 2
-	// we need to check that invalid counters have not been called
-	if (index > (int)RomanIndex::INDEX_V)
-	{
-		// check from 0 to two indexes below current value
-		for (size_t i = 0; i <= (index - OFFSET_FOR_INDEX_CHECK_COMPLETE); i++)
-		{
-			if (localInputData.counters[i] > 0)
-			{
-				dataRomanNumeralString.setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
-				return;
-			}
-		}
-	}
-
-	localInputData.counters[index]++;
-
-	dataRomanNumeralString.decimalValue	+= incrementValue;
-
-	if (localInputData.counters[index] > MAX_HALF_ROMAN_NUMERALS)
-	{
-		dataRomanNumeralString.setError(eStatusCode::eFAIL_TOO_MANT_HALF_TEN_VALUES);
-		return;
-	}
-
-	// this stuff is rependent on last value do if last value is index -1 
-	if ((index > 0) && (localInputData.indexLastValue >= 0))
-	{
-		if ((index - 1) == localInputData.indexLastValue)
-		{
-			if (localInputData.counters[index - 1] > MAX_PRE_BASE_TEN)
-			{
-				dataRomanNumeralString.setError(eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES);
-			}
-			else
-			{
-				// need to woek this out
-				dataRomanNumeralString.decimalValue -= decrementValue;
-			}
-
-			localInputData.counters[index - 1] = COUNT_AFTER_SUBRTACT_VALUE;
-		}
-	}
-}
-*/
-
 
