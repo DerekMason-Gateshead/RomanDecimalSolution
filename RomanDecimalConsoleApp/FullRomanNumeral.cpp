@@ -7,40 +7,23 @@
 //  info is used for error checking, lastIndex is used to check for pre roman numerals
 void FullRomanNumeral::HandleInput(dataForRomanNumeralInput& dataRomanNumeralString, localDataForRomanNumeralInput& localInputData)
 {
-#define OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE 3
 	// we need to check that invalid counters have not been called
-	if (index > (int)RomanIndex::INDEX_X)
+	if (doesInvalidRomanNumeralPreceedThisNumeral(localInputData.counters))
 	{
-		// check from 0 to two indexes below current value
-		for (size_t i = 0; i <= (index - OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE); i++)
-		{
-			if (localInputData.counters[i] > 0)
-			{
-				dataRomanNumeralString.setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
-				return;
-			}
-		}
+		dataRomanNumeralString.setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
+		return;
 	}
-
-	if (index > 0)
-	{
-		// one index less must be a half value which cannot be pre this
-		if (localInputData.counters[index - 1] > 0)
-		{
-			dataRomanNumeralString.setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
-			return;
-		}
-	}
-	localInputData.counters[index]++;
+	
+	localInputData.counters[(int) indexOfRomanNumeral]++;
 
 	dataRomanNumeralString.decimalValue += incrementValue;
 
 	// this stuff is rependent on last value do if last value is index -1 
-	if ((index > 1) && (localInputData.indexLastValue >= 0))
+	if (((int) indexOfRomanNumeral > 1) && (localInputData.indexLastValue >= 0))
 	{
-		if ((index - 2) == localInputData.indexLastValue)
+		if (((int) indexOfRomanNumeral - 2) == localInputData.indexLastValue)
 		{
-			if (localInputData.counters[index - 2] > MAX_PRE_BASE_TEN)
+			if (localInputData.counters[(int) indexOfRomanNumeral - 2] > MAX_PRE_BASE_TEN)
 			{
 				dataRomanNumeralString.setError(eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES);
 				return;
@@ -51,17 +34,47 @@ void FullRomanNumeral::HandleInput(dataForRomanNumeralInput& dataRomanNumeralStr
 				dataRomanNumeralString.decimalValue -= decrementValue;
 			}
 
-			localInputData.counters[index - 2] = COUNT_AFTER_SUBRTACT_VALUE;
+			localInputData.counters[(int) indexOfRomanNumeral - 2] = COUNT_AFTER_SUBRTACT_VALUE;
 
-			localInputData.counters[index] = MAX_BASE10_VALUES;
+			localInputData.counters[(int) indexOfRomanNumeral] = MAX_BASE10_VALUES;
 
 		}
 	}
 
-	if (localInputData.counters[index] > MAX_BASE10_VALUES)
+	if (localInputData.counters[(int)indexOfRomanNumeral] > MAX_BASE10_VALUES)
 	{
 		dataRomanNumeralString.setError(eStatusCode::eFAIL_TOO_MANY_BASE10_VALUES);
 	}
 
-	localInputData.indexLastValue = index;
+	localInputData.indexLastValue = (int) indexOfRomanNumeral;
 }
+
+const bool FullRomanNumeral::doesInvalidRomanNumeralPreceedThisNumeral(const int counters[(int)RomanIndex::FINAL_INDEX])
+{
+	#define OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE 3
+
+	if ((int)indexOfRomanNumeral > (int)RomanIndex::INDEX_X)
+	{
+		// check from 0 to indexes below current value
+		for (size_t i = 0; i <= ((int)indexOfRomanNumeral - OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE); i++)
+		{
+			if (counters[i] > 0)
+			{
+				return true;
+			}
+		}
+	}
+
+	if ((int)indexOfRomanNumeral > 0)
+	{
+		// one index less must be a half value which cannot be pre this
+		if (counters[(int)indexOfRomanNumeral - 1] > 0)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+ 

@@ -4,7 +4,7 @@ class FullRomanNumeral :
 	public RomanNumeral
 {
 public:
-	FullRomanNumeral(int Index, int incrementValue, int decrementValue) : RomanNumeral(Index, incrementValue, decrementValue) {}
+	FullRomanNumeral(RomanIndex Index, int incrementValue, int decrementValue) : RomanNumeral(Index, incrementValue, decrementValue) {}
 	
 	// this handles all unit and 10 x unit data
 	// this effects data in dataRomanNumeralString and localInputData
@@ -13,5 +13,8 @@ public:
 	//  info is used for error checking, lastIndex is used to check for pre roman numerals
 	void HandleInput(dataForRomanNumeralInput& dataRomanNumeralString,
 		localDataForRomanNumeralInput& localInputData) override;
+
+private:
+	const bool doesInvalidRomanNumeralPreceedThisNumeral(const int counters[(int)RomanIndex::FINAL_INDEX]);
 };
 

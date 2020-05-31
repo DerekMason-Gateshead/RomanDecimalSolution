@@ -4,7 +4,7 @@ class HalfRomanNumeral :
 	public RomanNumeral
 {
 public:
-	HalfRomanNumeral(int Index, int incrementValue, int decrementValue) : RomanNumeral(Index, incrementValue, decrementValue) {}
+	HalfRomanNumeral(RomanIndex Index, int incrementValue, int decrementValue) : RomanNumeral(Index, incrementValue, decrementValue) {}
 	
 	// this handles all half units, i.e 5, 50, 500 etc
 	// this effects data in dataRomanNumeralString and localInputData

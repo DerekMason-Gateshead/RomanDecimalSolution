@@ -1,8 +1,8 @@
 #include "RomanNumeral.h"
 
-RomanNumeral::RomanNumeral(int Pindex, int PincrementValue, int PdecrementValue)
+RomanNumeral::RomanNumeral(RomanIndex Pindex, int PincrementValue, int PdecrementValue)
 {
-	index = Pindex;
+	indexOfRomanNumeral = Pindex;
 	incrementValue = PincrementValue;
 	decrementValue = PdecrementValue;
 }

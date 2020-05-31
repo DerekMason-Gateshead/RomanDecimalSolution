@@ -56,36 +56,36 @@ eStatusCode RomanNumeralData::getStatusCode()
 // data has valid data, the data in m_romanNumeralDataForInput is updated
 void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 {
-	HalfRomanNumeral numeral_V((int)RomanIndex::INDEX_V,
+	HalfRomanNumeral numeral_V(RomanIndex::INDEX_V,
 										ROMAN_V_INCREMENT,
 										DECREMENT_IF_PREI);
 
-	HalfRomanNumeral numeral_L((int)RomanIndex::INDEX_L,
+	HalfRomanNumeral numeral_L(RomanIndex::INDEX_L,
 		ROMAN_L_INCREMENT,
 		DECREMENT_IF_PREX);
 
-	HalfRomanNumeral numeral_D((int)RomanIndex::INDEX_D,
+	HalfRomanNumeral numeral_D(RomanIndex::INDEX_D,
 		ROMAN_D_INCREMENT,
 		DECREMENT_IF_PREC);
 
-	HalfRomanNumeral numeral_5000((int)RomanIndex::INDEX_5000,
+	HalfRomanNumeral numeral_5000(RomanIndex::INDEX_5000,
 		ROMAN_V_HAT_INCREMENT,
 		DECREMENT_IF_PREM);
 
-	FullRomanNumeral numeral_I((int)RomanIndex::INDEX_I,
+	FullRomanNumeral numeral_I(RomanIndex::INDEX_I,
 		ROMAN_I_INCREMENT, 0);
 
 
-	FullRomanNumeral numeral_X((int)RomanIndex::INDEX_X,
+	FullRomanNumeral numeral_X(RomanIndex::INDEX_X,
 									ROMAN_X_INCREMENT, DECREMENT_IF_PREI);
 
-	FullRomanNumeral numeral_C((int)RomanIndex::INDEX_C,
+	FullRomanNumeral numeral_C(RomanIndex::INDEX_C,
 		ROMAN_C_INCREMENT, DECREMENT_IF_PREX);
 
-	FullRomanNumeral numeral_M((int)RomanIndex::INDEX_M,
+	FullRomanNumeral numeral_M(RomanIndex::INDEX_M,
 		ROMAN_M_INCREMENT, DECREMENT_IF_PREC);
 
-	FullRomanNumeral numeral_10000((int)RomanIndex::INDEX_10000,
+	FullRomanNumeral numeral_10000(RomanIndex::INDEX_10000,
 									ROMAN_X_HAT_INCREMENT,
 									DECREMENT_IF_PREM);
 

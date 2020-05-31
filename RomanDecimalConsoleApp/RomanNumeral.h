@@ -89,14 +89,14 @@ struct localDataForRomanNumeralInput
 class RomanNumeral
 {
 public:
-	RomanNumeral(int Index, int incrementValue, int decrementValue);
+	RomanNumeral(RomanIndex Index, int incrementValue, int decrementValue);
 protected:
 	 
 
 // decrementvalue is the value to decrement the decimal value if preceded by the approriate value (i.e for C then X)
 
 	// index is the index into the Roman Numeral set up for (used for handling counter info)
-	int index;
+	RomanIndex indexOfRomanNumeral;
 
 	// increment value is has the value to add to value for this number
 	int incrementValue;
