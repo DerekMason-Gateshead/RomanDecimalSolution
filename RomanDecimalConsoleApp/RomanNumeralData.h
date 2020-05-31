@@ -22,22 +22,13 @@ public:
 private:
 	// inialises status and decimal value 
 	void initValues();
-
-	// function to handle inppit roman numerals that are 1, 10, 100 etc
-//	void handleHalfDecimalInput(int index, 
-//								int incrementValue, 
-//								int decrementValue, 
-//								dataForRomanNumeralInput& dataRomanNumeralString,
-//								localDataForRomanNumeralInput& localInputData);
-
-	// function to handle input roman numerals that are 5, 50, 500 etc
-//	void handleFullDecimalInput(int index, 
-//								int incrementValue, 
-//								int decrementValue, 
-//								dataForRomanNumeralInput& dataRomanNumeralString,
-//								localDataForRomanNumeralInput& localInputData);
+	RomanNumeral* romanNumerals[512];
 
 private:
+	HalfRomanNumeral numeral_V;
+	HalfRomanNumeral numeral_L;
+	HalfRomanNumeral numeral_D;
+
 
 	// contains status, decimal value and error codes
 	dataForRomanNumeralInput m_romanNumeralDataForInput;

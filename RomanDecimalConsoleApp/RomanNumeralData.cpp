@@ -1,4 +1,5 @@
 #include "RomanNumeralData.h"
+#include <array>
 
 #define ROMAN_I_1 'I'
 #define ROMAN_V_5 'V'
@@ -21,16 +22,39 @@
 #define ROMAN_X_HAT_INCREMENT 10000
 
 
-#define DECREMENT_IF_PREI   2
-#define DECREMENT_IF_PREX	20
-#define DECREMENT_IF_PREC	200
-#define DECREMENT_IF_PREM   2000
+#define DECREMENT_IF_PRE_I   2
+#define DECREMENT_IF_PRE_X	20
+#define DECREMENT_IF_PRE_C	200
+#define DECREMENT_IF_PRE_M   2000
 
 
 
 // constructor
-RomanNumeralData::RomanNumeralData()
+RomanNumeralData::RomanNumeralData() : 
+			numeral_V(
+				RomanIndex::INDEX_V,
+				ROMAN_V_INCREMENT,
+				DECREMENT_IF_PRE_I),
+			numeral_L(
+				RomanIndex::INDEX_L,
+				ROMAN_L_INCREMENT,
+				DECREMENT_IF_PRE_X),
+			numeral_D(RomanIndex::INDEX_D,
+				ROMAN_D_INCREMENT,
+				DECREMENT_IF_PRE_C)
 {
+	for (size_t i = 0; i < 512; i++)
+	{
+		romanNumerals[i] = nullptr;
+	}
+
+	romanNumerals['v'] = &numeral_V;
+	romanNumerals['V'] = &numeral_V;
+	romanNumerals['l'] = &numeral_L;
+	romanNumerals['L'] = &numeral_L;
+	romanNumerals['d'] = &numeral_D;
+	romanNumerals['D'] = &numeral_D;
+
 	initValues();
 }
 
@@ -56,38 +80,32 @@ eStatusCode RomanNumeralData::getStatusCode()
 // data has valid data, the data in m_romanNumeralDataForInput is updated
 void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 {
-	HalfRomanNumeral numeral_V(RomanIndex::INDEX_V,
-										ROMAN_V_INCREMENT,
-										DECREMENT_IF_PREI);
+	
 
-	HalfRomanNumeral numeral_L(RomanIndex::INDEX_L,
-		ROMAN_L_INCREMENT,
-		DECREMENT_IF_PREX);
 
-	HalfRomanNumeral numeral_D(RomanIndex::INDEX_D,
-		ROMAN_D_INCREMENT,
-		DECREMENT_IF_PREC);
+
+
 
 	HalfRomanNumeral numeral_5000(RomanIndex::INDEX_5000,
 		ROMAN_V_HAT_INCREMENT,
-		DECREMENT_IF_PREM);
+		DECREMENT_IF_PRE_M);
 
 	FullRomanNumeral numeral_I(RomanIndex::INDEX_I,
 		ROMAN_I_INCREMENT, 0);
 
 
 	FullRomanNumeral numeral_X(RomanIndex::INDEX_X,
-									ROMAN_X_INCREMENT, DECREMENT_IF_PREI);
+									ROMAN_X_INCREMENT, DECREMENT_IF_PRE_I);
 
 	FullRomanNumeral numeral_C(RomanIndex::INDEX_C,
-		ROMAN_C_INCREMENT, DECREMENT_IF_PREX);
+		ROMAN_C_INCREMENT, DECREMENT_IF_PRE_X);
 
 	FullRomanNumeral numeral_M(RomanIndex::INDEX_M,
-		ROMAN_M_INCREMENT, DECREMENT_IF_PREC);
+		ROMAN_M_INCREMENT, DECREMENT_IF_PRE_C);
 
 	FullRomanNumeral numeral_10000(RomanIndex::INDEX_10000,
 									ROMAN_X_HAT_INCREMENT,
-									DECREMENT_IF_PREM);
+									DECREMENT_IF_PRE_M);
 
 	
 	bool hatChar = false; // used superceeded by V or X (for 5000 and 10000)
@@ -110,6 +128,15 @@ void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 	for (size_t i = 0; i < sRomanNumeral.length(); i++)
 	{
 		if (!m_romanNumeralDataForInput.valid) break;
+
+		RomanNumeral* pRomanNumeral = romanNumerals[sRomanNumeral[i]]; //  != nullptr)
+		
+		if ((pRomanNumeral != nullptr) && (!hatChar))
+		{
+			pRomanNumeral->HandleInput(m_romanNumeralDataForInput, localInputData);
+			continue;
+		}
+		
 
 		switch (toupper(sRomanNumeral[i]))
 		{
@@ -143,7 +170,7 @@ void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 				break;
 			}
 
-			numeral_V.HandleInput(m_romanNumeralDataForInput, localInputData);
+		//	numeral_V.HandleInput(m_romanNumeralDataForInput, localInputData);
 			break;
 
 		case ROMAN_X_10:
@@ -168,7 +195,7 @@ void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 				break;
 			}
 
-			numeral_L.HandleInput(m_romanNumeralDataForInput, localInputData);
+		//	numeral_L.HandleInput(m_romanNumeralDataForInput, localInputData);
 			break;
 		case ROMAN_C_100:
 			if (hatChar)

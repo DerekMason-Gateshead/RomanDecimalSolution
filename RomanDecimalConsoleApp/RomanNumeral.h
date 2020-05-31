@@ -106,10 +106,10 @@ protected:
 
 	virtual ~RomanNumeral();
 
-
+public:
 	// will store value of data 1,5,10, etc
-	virtual void HandleInput(dataForRomanNumeralInput &dataRomanNumeralString, 
-								localDataForRomanNumeralInput &localInputData) = 0;
+	virtual void HandleInput(dataForRomanNumeralInput& dataRomanNumeralString,
+		localDataForRomanNumeralInput& localInputData) = 0;
 	
 	
 };
