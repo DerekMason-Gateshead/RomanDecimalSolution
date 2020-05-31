@@ -1,13 +1,28 @@
 #include "RomanNumeralData.h"
 #include <array>
 
-#define ROMAN_I_1 'I'
-#define ROMAN_V_5 'V'
-#define ROMAN_X_10 'X'
-#define ROMAN_L_50 'L'
-#define ROMAN_C_100 'C'
-#define ROMAN_D_500 'D'
-#define ROMAN_M_1000 'M'
+enum class ROMAN_NUM_ASCII_VALUES
+{
+	UPPER_I = 'I',
+	LOWER_I = 'i',
+	UPPER_V = 'V',
+	LOWER_V = 'v',
+	UPPER_X = 'X',
+	LOWER_X = 'x',
+	UPPER_L = 'L',
+	LOWER_L = 'l',
+	UPPER_C = 'C',
+	LOWER_C = 'c',
+	UPPER_D = 'D',
+	LOWER_D = 'd',
+	UPPER_M = 'M',
+	LOWER_M = 'm',
+	UPPER_5000 = ('V' + 256),
+	LOWER_5000 = ('v' + 256),
+	UPPER_10000 = ('X' + 256),
+	LOWER_10000 = ('x' + 256)
+};
+
 
 #define SPECIAL_PRE_MULTIPLIER '^'
 
@@ -30,30 +45,67 @@
 
 
 // constructor
-RomanNumeralData::RomanNumeralData() : 
+RomanNumeralData::RomanNumeralData() :
+			numeral_I(
+				RomanIndex::INDEX_I,
+				ROMAN_I_INCREMENT,
+				0),
 			numeral_V(
 				RomanIndex::INDEX_V,
 				ROMAN_V_INCREMENT,
+				DECREMENT_IF_PRE_I),
+			numeral_X(
+				RomanIndex::INDEX_X,
+				ROMAN_X_INCREMENT, 
 				DECREMENT_IF_PRE_I),
 			numeral_L(
 				RomanIndex::INDEX_L,
 				ROMAN_L_INCREMENT,
 				DECREMENT_IF_PRE_X),
+			numeral_C(
+				RomanIndex::INDEX_C,
+				ROMAN_C_INCREMENT, 
+				DECREMENT_IF_PRE_X),
 			numeral_D(RomanIndex::INDEX_D,
 				ROMAN_D_INCREMENT,
-				DECREMENT_IF_PRE_C)
+				DECREMENT_IF_PRE_C),
+			numeral_M(
+				RomanIndex::INDEX_M,
+				ROMAN_M_INCREMENT, 
+				DECREMENT_IF_PRE_C),
+			numeral_5000(
+				RomanIndex::INDEX_5000,
+				ROMAN_V_HAT_INCREMENT,
+				DECREMENT_IF_PRE_M),
+			numeral_10000(
+				RomanIndex::INDEX_10000,
+				ROMAN_X_HAT_INCREMENT,
+				DECREMENT_IF_PRE_M)
 {
 	for (size_t i = 0; i < 512; i++)
 	{
-		romanNumerals[i] = nullptr;
+		ArrayOfPointersToRomanNumeralClasses[i] = nullptr;
 	}
 
-	romanNumerals['v'] = &numeral_V;
-	romanNumerals['V'] = &numeral_V;
-	romanNumerals['l'] = &numeral_L;
-	romanNumerals['L'] = &numeral_L;
-	romanNumerals['d'] = &numeral_D;
-	romanNumerals['D'] = &numeral_D;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_I] = &numeral_I;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_I] = &numeral_I;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_V] = &numeral_V;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_V] = &numeral_V;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_X] = &numeral_X;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_X] = &numeral_X;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_L] = &numeral_L;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_L] = &numeral_L;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_C] = &numeral_C;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_C] = &numeral_C;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_D] = &numeral_D;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_D] = &numeral_D;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_M] = &numeral_M;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_M] = &numeral_M;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_5000] = &numeral_5000;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_5000] = &numeral_5000;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::UPPER_10000] = &numeral_10000;
+	ArrayOfPointersToRomanNumeralClasses[(int)ROMAN_NUM_ASCII_VALUES::LOWER_10000] = &numeral_10000;
+
 
 	initValues();
 }
@@ -80,34 +132,6 @@ eStatusCode RomanNumeralData::getStatusCode()
 // data has valid data, the data in m_romanNumeralDataForInput is updated
 void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 {
-	
-
-
-
-
-
-	HalfRomanNumeral numeral_5000(RomanIndex::INDEX_5000,
-		ROMAN_V_HAT_INCREMENT,
-		DECREMENT_IF_PRE_M);
-
-	FullRomanNumeral numeral_I(RomanIndex::INDEX_I,
-		ROMAN_I_INCREMENT, 0);
-
-
-	FullRomanNumeral numeral_X(RomanIndex::INDEX_X,
-									ROMAN_X_INCREMENT, DECREMENT_IF_PRE_I);
-
-	FullRomanNumeral numeral_C(RomanIndex::INDEX_C,
-		ROMAN_C_INCREMENT, DECREMENT_IF_PRE_X);
-
-	FullRomanNumeral numeral_M(RomanIndex::INDEX_M,
-		ROMAN_M_INCREMENT, DECREMENT_IF_PRE_C);
-
-	FullRomanNumeral numeral_10000(RomanIndex::INDEX_10000,
-									ROMAN_X_HAT_INCREMENT,
-									DECREMENT_IF_PRE_M);
-
-	
 	bool hatChar = false; // used superceeded by V or X (for 5000 and 10000)
 
 	initValues();
@@ -129,115 +153,41 @@ void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 	{
 		if (!m_romanNumeralDataForInput.valid) break;
 
-		RomanNumeral* pRomanNumeral = romanNumerals[sRomanNumeral[i]]; //  != nullptr)
-		
-		if ((pRomanNumeral != nullptr) && (!hatChar))
+		if (sRomanNumeral[i] == SPECIAL_PRE_MULTIPLIER)
 		{
-			pRomanNumeral->HandleInput(m_romanNumeralDataForInput, localInputData);
+			if (!hatChar)
+			{
+				hatChar = true;
+			}
+			else
+			{
+				m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
+
+			}
 			continue;
 		}
-		
 
-		switch (toupper(sRomanNumeral[i]))
+		RomanNumeral* pRomanNumeral;
+		
+		if (!hatChar)
 		{
-		case SPECIAL_PRE_MULTIPLIER:
-			if (hatChar)
-			{
-				// two together make value invalid
-				m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
-				break;
-			}
-			hatChar = true;
-			break;
-		
-		case ROMAN_I_1:
-			if (hatChar)
-			{
-				
-				// the har char multipler would make the value 1000 but we already have M so we wont allow its use
-				m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
-				break;
-			}
+			pRomanNumeral = ArrayOfPointersToRomanNumeralClasses[sRomanNumeral[i]];
+		}
+		else
+		{
+			pRomanNumeral = ArrayOfPointersToRomanNumeralClasses[sRomanNumeral[i] + 256];
+			hatChar = false;
+		}
 
-			numeral_I.HandleInput(m_romanNumeralDataForInput, localInputData);
-			break;
-		case ROMAN_V_5:
-			if (hatChar)
-			{
-				hatChar = false;
-
-				numeral_5000.HandleInput(m_romanNumeralDataForInput, localInputData);
-				break;
-			}
-
-		//	numeral_V.HandleInput(m_romanNumeralDataForInput, localInputData);
-			break;
-
-		case ROMAN_X_10:
-			
-			if (hatChar)
-			{
-				hatChar = false;
-
-				numeral_10000.HandleInput(m_romanNumeralDataForInput, localInputData);
-				break;
-			}
-
-			numeral_X.HandleInput(m_romanNumeralDataForInput, localInputData);
-			break;
-
-		case ROMAN_L_50:
-
-			if (hatChar)
-			{
-				// the har char multipler would make the value 50000 well out of range
-				m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
-				break;
-			}
-
-		//	numeral_L.HandleInput(m_romanNumeralDataForInput, localInputData);
-			break;
-		case ROMAN_C_100:
-			if (hatChar)
-			{
-				// the har char multipler would make the value 100000 well out of range
-				m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
-				break;
-			}
-
-			numeral_C.HandleInput(m_romanNumeralDataForInput, localInputData);
-			break;
-
-
-		case ROMAN_D_500:
-			if (hatChar)
-			{
-				// the har char multipler would make the value 100000 well out of range
-				m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
-				break;
-			}
-
-			numeral_D.HandleInput(m_romanNumeralDataForInput, localInputData);
-			break;
-		case ROMAN_M_1000:
-			if (hatChar)
-			{
-				// the har char multipler would make the value 100000 well out of range
-				m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
-				break;
-			}
-
-			numeral_M.HandleInput(m_romanNumeralDataForInput, localInputData);
-
-			break;
-
-		default:
-			// Not defined so invalid data
+		if (pRomanNumeral != nullptr)
+		{
+			pRomanNumeral->HandleInput(m_romanNumeralDataForInput, localInputData);
+		}
+		else
+		{
 			m_romanNumeralDataForInput.setError(eStatusCode::eFAIL_INVALID_DATA_VALUE);
-			break;
 		}
 	}
-
 
 	if (m_romanNumeralDataForInput.valid)
 	{
@@ -262,9 +212,6 @@ int RomanNumeralData::romanDecimalValue()
 {
 	return m_romanNumeralDataForInput.decimalValue;
 }
-
-
-
 
 // initalise values when converting roman to decimal
 void RomanNumeralData::initValues()
