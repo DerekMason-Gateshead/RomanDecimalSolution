@@ -92,7 +92,7 @@ public:
 	RomanNumeral(RomanIndex Index, int incrementValue, int decrementValue);
 protected:
 	 
-
+	int count = 0;
 // decrementvalue is the value to decrement the decimal value if preceded by the approriate value (i.e for C then X)
 
 	// index is the index into the Roman Numeral set up for (used for handling counter info)
@@ -111,6 +111,10 @@ public:
 	virtual void HandleInput(dataForRomanNumeralInput& dataRomanNumeralString,
 		localDataForRomanNumeralInput& localInputData) = 0;
 	
-	
+	int getCount() { return count; }
+	int getIncrementValue() { return incrementValue; }
+	int getDecrementValue() { return decrementValue;  }
+
+	RomanIndex getIndex() { return indexOfRomanNumeral; }
 };
 

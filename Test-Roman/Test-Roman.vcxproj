@@ -70,8 +70,11 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>../RomanDecimalConsoleApp/Debug/RomanNumeralData.obj;../RomanDecimalConsoleApp/Debug/RomanNumeral.obj;../RomanDecimalConsoleApp/Debug/HalfRomanNumeral.obj;../RomanDecimalConsoleApp/Debug/FullRomanNumeral.obj;../RomanDecimalConsoleApp/Debug/DecimalToRoman.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../RomanDecimalConsoleApp/Debug/RomanNumeralData.obj;../RomanDecimalConsoleApp/Debug/RomanNumeral.obj;../RomanDecimalConsoleApp/Debug/HalfRomanNumeral.obj;../RomanDecimalConsoleApp/Debug/FullRomanNumeral.obj;../RomanDecimalConsoleApp/Debug/DecimalToRoman.obj;../RomanDecimalConsoleApp/Debug/RomanNumeralValue.obj;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

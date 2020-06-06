@@ -155,6 +155,7 @@
     <ClCompile Include="RomanDecimalConsoleApp.cpp" />
     <ClCompile Include="RomanNumeral.cpp" />
     <ClCompile Include="RomanNumeralData.cpp" />
+    <ClCompile Include="RomanNumeralValue.cpp" />
     <ClCompile Include="userInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +164,7 @@
     <ClInclude Include="HalfRomanNumeral.h" />
     <ClInclude Include="RomanNumeral.h" />
     <ClInclude Include="RomanNumeralData.h" />
+    <ClInclude Include="RomanNumeralValue.h" />
     <ClInclude Include="userInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

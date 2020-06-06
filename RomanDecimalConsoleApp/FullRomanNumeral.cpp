@@ -16,6 +16,7 @@ void FullRomanNumeral::HandleInput(dataForRomanNumeralInput& dataRomanNumeralStr
 	
 	localInputData.counters[(int) indexOfRomanNumeral]++;
 
+
 	dataRomanNumeralString.decimalValue += incrementValue;
 
 	// this stuff is rependent on last value do if last value is index -1 

@@ -1,5 +1,6 @@
 #include "RomanNumeralData.h"
 #include <array>
+#include "RomanNumeralValue.h"
 
 enum class ROMAN_NUM_ASCII_VALUES
 {
@@ -132,6 +133,8 @@ eStatusCode RomanNumeralData::getStatusCode()
 // data has valid data, the data in m_romanNumeralDataForInput is updated
 void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 {
+	RomanNumeralValue romanNumeralDecimalValue;
+
 	bool hatChar = false; // used superceeded by V or X (for 5000 and 10000)
 
 	initValues();
@@ -181,7 +184,11 @@ void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 
 		if (pRomanNumeral != nullptr)
 		{
-			pRomanNumeral->HandleInput(m_romanNumeralDataForInput, localInputData);
+			romanNumeralDecimalValue.AddValue(*pRomanNumeral);
+			m_romanNumeralDataForInput.decimalValue = romanNumeralDecimalValue.getValue();
+			m_romanNumeralDataForInput.statusCode = romanNumeralDecimalValue.getStatus();
+			m_romanNumeralDataForInput.valid = romanNumeralDecimalValue.getValid();
+			// pRomanNumeral->HandleInput(m_romanNumeralDataForInput, localInputData);
 		}
 		else
 		{
