@@ -16,29 +16,24 @@ void RomanNumeralValue::AddValue(RomanNumeral& numeral)
 {
 	if (numeral.IsHalfValue())
 	{
+		
 		AddFiveBaseValue(numeral);
 	}
 	else
 	{
+		
 		AddTenBaseValue(numeral);
 	}
 }
 
 void RomanNumeralValue::AddFiveBaseValue(RomanNumeral& numeral)
 {
-	#define OFFSET_FOR_INDEX_CHECK_COMPLETE 2
+	int offsetForPreeceder = 1;
 	// we need to check that invalid counters have not been called
-	if ((int) numeral.getIndex() > (int)RomanIndex::INDEX_V)
+	if (doesInvalidRomanNumeralPreceedThisNumeral((int)numeral.getIndex(), offsetForPreeceder))
 	{
-		// check from 0 to two indexes below current value
-		for (int i = 0; i <= ((int) numeral.getIndex() - OFFSET_FOR_INDEX_CHECK_COMPLETE); i++)
-		{
-			if (counters[i] > 0)
-			{
-				setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
-				return;
-			}
-		}
+		setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
+		return;
 	}
 
 	counters[(int) numeral.getIndex()]++;
@@ -52,65 +47,39 @@ void RomanNumeralValue::AddFiveBaseValue(RomanNumeral& numeral)
 	}
 
 	// this stuff is rependent on last value do if last value is index -1 
-	if (((int) numeral.getIndex() > 0) && (indexLastNumeral >= 0))
+	if (((int)numeral.getIndex() >= offsetForPreeceder) && (indexLastNumeral >= 0))
 	{
-	if (((int) numeral.getIndex() > 0) && (indexLastNumeral >= 0))
-		if (((int) numeral.getIndex() - 1) == indexLastNumeral)
-		{
-			if (counters[(int) numeral.getIndex() - 1] > MAX_PRE_BASE_TEN)
-			{
-				setError(eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES);
-			}
-			else
-			{
-				// need to woek this out
-				decimalValue -= numeral.getDecrementValue();
-			}
-
-			counters[(int) numeral.getIndex() - 1] = COUNT_AFTER_SUBRTACT_VALUE;
-		}
+		checkIfPrecedeededByDecrementer(numeral, offsetForPreeceder);		
 	}
-
 	indexLastNumeral = (int)numeral.getIndex();
 }
 
-#define OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE 3
 
 void RomanNumeralValue::AddTenBaseValue(RomanNumeral& numeral)
 {
+	int offsetForPreeceder = 2;
+
 	// we need to check that invalid counters have not been called
-	if (doesInvalidRomanNumeralPreceedThisNumeral((int)numeral.getIndex(), OFFSET_FOR_FULL_INDEX_CHECK_COMPLETE))
+	if (doesInvalidRomanNumeralPreceedThisNumeral((int)numeral.getIndex(), offsetForPreeceder))
 	{
 		setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
 		return;
 	}
 
+	if (isTenBaseValueProceededByHalfValue((int)numeral.getIndex()))
+	{
+		setError(eStatusCode::eFAIL_INVALID_PRE_VALUE_FOR_NUMBER);
+		return;
+	}
 	counters[(int)numeral.getIndex()]++;
 
 
 	decimalValue += numeral.getIncrementValue();
 
 	// this stuff is rependent on last value do if last value is index -1 
-	if (((int)numeral.getIndex() > 1) && (indexLastNumeral >= 0))
+	if (((int)numeral.getIndex() >= offsetForPreeceder) && (indexLastNumeral >= 0))
 	{
-		if (((int)numeral.getIndex() - 2) == indexLastNumeral)
-		{
-			if (counters[indexLastNumeral] > MAX_PRE_BASE_TEN)
-			{
-				setError(eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES);
-				return;
-			}
-			else
-			{
-				// need to woek this out
-				decimalValue -= numeral.getDecrementValue();
-			}
-
-			counters[indexLastNumeral] = COUNT_AFTER_SUBRTACT_VALUE;
-
-			counters[(int)numeral.getIndex()] = MAX_BASE10_VALUES;
-
-		}
+		checkIfPrecedeededByDecrementer(numeral,offsetForPreeceder);
 	}
 
 	if (counters[(int)numeral.getIndex()] > MAX_BASE10_VALUES)
@@ -133,7 +102,7 @@ const bool RomanNumeralValue::doesInvalidRomanNumeralPreceedThisNumeral(int inde
 	if ((int)indexOfRomanNumeral > (int)RomanIndex::INDEX_V)
 	{
 		// check from 0 to indexes below current value
-		for (int i = 0; i <= ((int)indexOfRomanNumeral - offset); i++)
+		for (int i = 0; i < ((int)indexOfRomanNumeral - offset); i++)
 		{
 			if (counters[i] > 0)
 			{
@@ -141,6 +110,13 @@ const bool RomanNumeralValue::doesInvalidRomanNumeralPreceedThisNumeral(int inde
 			}
 		}
 	}
+
+
+	return false;
+}
+
+const bool RomanNumeralValue::isTenBaseValueProceededByHalfValue(int indexOfRomanNumeral)
+{
 
 	if ((int)indexOfRomanNumeral > 0)
 	{
@@ -153,3 +129,29 @@ const bool RomanNumeralValue::doesInvalidRomanNumeralPreceedThisNumeral(int inde
 
 	return false;
 }
+
+void RomanNumeralValue::checkIfPrecedeededByDecrementer(RomanNumeral &numeral, int preceederOffset)
+{
+	if (((int)numeral.getIndex() - preceederOffset) == indexLastNumeral)
+	{
+		if (counters[indexLastNumeral] > MAX_PRE_BASE_TEN)
+		{
+			setError(eStatusCode::eFAIL_TOO_MANY_PRE_BASE_10_VALUES);
+			return;
+		}
+		else
+		{
+			// need to woek this out
+			decimalValue -= numeral.getDecrementValue();
+		}
+
+		counters[indexLastNumeral] = COUNT_AFTER_SUBRTACT_VALUE;
+
+		if (!numeral.IsHalfValue())
+		{
+			counters[(int)numeral.getIndex()] = MAX_BASE10_VALUES;
+		}
+	}
+
+}
+

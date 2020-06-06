@@ -16,6 +16,7 @@ private:
 	void setError(eStatusCode erroCode);
 	int decimalValue = 0;
 
+
 	int indexLastNumeral =  -1; // index of previous input value
 
 	// contains I,V,X,L,C,D,M,5000,10000 counts
@@ -24,6 +25,8 @@ private:
 	bool valid = true; // is the input data valid
 	eStatusCode statusCode = eStatusCode::eUNINTIALISED;  // status Code of data
 	const bool doesInvalidRomanNumeralPreceedThisNumeral(int indexOfRomanNumeral, int offset);
+	const bool isTenBaseValueProceededByHalfValue(int indexIfRomanNumeral);
 
+	void checkIfPrecedeededByDecrementer(RomanNumeral& numeral, int preceederOffset);
 };
 
