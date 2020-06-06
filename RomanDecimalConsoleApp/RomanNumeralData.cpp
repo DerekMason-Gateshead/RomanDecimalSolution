@@ -139,10 +139,6 @@ void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 
 	initValues();
 
-	localDataForRomanNumeralInput localInputData;
-
-	localInputData.Init();
-
 	// assume data is valid to start with
 	// we will fail on error
 	m_romanNumeralDataForInput.valid = true;
@@ -188,7 +184,6 @@ void RomanNumeralData::setRomanNumeralData(const std::string &sRomanNumeral)
 			m_romanNumeralDataForInput.decimalValue = romanNumeralDecimalValue.getValue();
 			m_romanNumeralDataForInput.statusCode = romanNumeralDecimalValue.getStatus();
 			m_romanNumeralDataForInput.valid = romanNumeralDecimalValue.getValid();
-			// pRomanNumeral->HandleInput(m_romanNumeralDataForInput, localInputData);
 		}
 		else
 		{

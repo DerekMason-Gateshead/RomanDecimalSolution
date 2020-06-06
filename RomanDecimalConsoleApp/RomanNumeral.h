@@ -67,29 +67,16 @@ struct dataForRomanNumeralInput
 	}
 };
 
-// contains counters for eacj roman numeral and index of last value
-struct localDataForRomanNumeralInput
-{
-	int indexLastValue; // index of previous input value
-
-	// contains I,V,X,L,C,D,M,5000,10000 counts
-	int counters[(int)RomanIndex::FINAL_INDEX]; // running counters for each differen numeral
-	
-	void Init()
-	{
-		indexLastValue = -1;
-		for (int i = 0; i < (int)RomanIndex::FINAL_INDEX; i++)
-		{
-			counters[i] = 0;
-		}
-	}
-};
 
 // Base class for an individual roman numeral
 class RomanNumeral
 {
 public:
 	RomanNumeral(RomanIndex Index, int incrementValue, int decrementValue);
+	virtual ~RomanNumeral();
+
+	bool IsHalfValue();
+	
 protected:
 	 
 	int count = 0;
@@ -104,12 +91,9 @@ protected:
 	// decrementvalue is the value to decrement the value if preceded by the approriate value (i.e for C then X)
 	int decrementValue;
 
-	virtual ~RomanNumeral();
 
 public:
-	// will store value of data 1,5,10, etc
-	virtual void HandleInput(dataForRomanNumeralInput& dataRomanNumeralString,
-		localDataForRomanNumeralInput& localInputData) = 0;
+
 	
 	int getCount() { return count; }
 	int getIncrementValue() { return incrementValue; }

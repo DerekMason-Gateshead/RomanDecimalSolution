@@ -1,5 +1,5 @@
 #include "RomanNumeralValue.h"
-#include "FullRomanNumeral.h"
+
 RomanNumeralValue::RomanNumeralValue()
 {
 	indexLastNumeral = -1;
@@ -14,7 +14,7 @@ RomanNumeralValue::RomanNumeralValue()
 
 void RomanNumeralValue::AddValue(RomanNumeral& numeral)
 {
-	if (dynamic_cast<FullRomanNumeral*>(&numeral) == nullptr)
+	if (numeral.IsHalfValue())
 	{
 		AddFiveBaseValue(numeral);
 	}

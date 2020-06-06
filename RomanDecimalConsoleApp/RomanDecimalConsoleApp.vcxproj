@@ -150,8 +150,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DecimalToRoman.cpp" />
-    <ClCompile Include="FullRomanNumeral.cpp" />
-    <ClCompile Include="HalfRomanNumeral.cpp" />
     <ClCompile Include="RomanDecimalConsoleApp.cpp" />
     <ClCompile Include="RomanNumeral.cpp" />
     <ClCompile Include="RomanNumeralData.cpp" />
@@ -160,8 +158,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DecimalToRoman.h" />
-    <ClInclude Include="FullRomanNumeral.h" />
-    <ClInclude Include="HalfRomanNumeral.h" />
     <ClInclude Include="RomanNumeral.h" />
     <ClInclude Include="RomanNumeralData.h" />
     <ClInclude Include="RomanNumeralValue.h" />
